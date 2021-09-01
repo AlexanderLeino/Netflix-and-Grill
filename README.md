@@ -7,12 +7,13 @@ Ever had that problem where you want to watch a movie and you want to make some 
 # Docs for APIs:
 - [Tasty API](https://rapidapi.com/apidojo/api/tasty/)
 
-- [Movie Db API](https://rapidapi.com/rapidapi/api/movie-database-imdb-alternative/)
+- [Meal Db](https://www.themealdb.com/api.php)
 
 - [Netflix Search](https://rapidapi.com/unogs/api/unogsng/)
 
 ## Possible Alternate APIs
-- [Meal Db](https://www.themealdb.com/api.php)
+
+- [Movie Db API](https://rapidapi.com/rapidapi/api/movie-database-imdb-alternative/)
 
 - [OMDb](https://www.omdbapi.com/)
 
