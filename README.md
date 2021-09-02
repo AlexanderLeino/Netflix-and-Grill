@@ -14,7 +14,7 @@ Ever had that problem where you want to watch a movie and you want to make some 
 # Docs for CSS Frameworks:
 - [Animate.css](https://animate.style/)
 
-- [Tailwind] (https://tailwindcss.com/docs)
+- [Tailwind](https://tailwindcss.com/docs)
 
 
 
