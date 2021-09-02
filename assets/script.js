@@ -1,25 +1,41 @@
-var animateBtn= document.getElementById('animateBtn')
+var letGo= document.getElementById('letGo')
 
+letGo.addEventListener('click', replaceSectionWithForm)
 
-function getAnimate(){
+function replaceSectionWithForm(){
+  var section= document.getElementById('section-1')
+  section.classList.add('animate__animated','animate__bounceOutLeft')
+ section.addEventListener('animationend', function(){
+   section.classList.add('hidden')
+ })
 
-  animateBtn.addEventListener('click',function(event){
-    var animHead= document.getElementById('anim-head')
-    var animBody= document.getElementById('anim-body')
-    
-    animate(animHead,'bounceIn')
-    animate(animBody,'rubberBand')
-  })
+  var form= document.getElementById('form')
+  form.classList.remove('hidden')
+  form.classList.add('animate__animated','animate__bounceInRight')
+  
+
+}
+
+// var section = document.getElementById('section-1')
+
+// function getForm(){
+// letGo.addEventListener('click',function (section) {
+//   section.classList.add('.form'); // animate__bounceIn
+//   section.classList.remove('.cool-intro')
+//   })
  
   
-}
+// }
 
-function animate(element, animation) {
-  element.classList.add('animate__animated','animate__' +animation); // animate__bounceIn
-  var wait = setTimeout(function() {
-  element.classList.remove('animate__animated','animate__' +animation)
 
-  },1000);
-}
 
-getAnimate()
+
+
+//click the button let's go
+//cool intro gone--->form
+//show the form
+//append form to DOM
+//button "Let's Netflix and Grill"
+
+
+//
