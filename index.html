@@ -24,6 +24,12 @@
       <h1 class="text-3xl text-white">[cool intro]</h1>
       <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero eos, architecto nostrum id explicabo corrupti veritatis repellat libero molestias, quasi delectus! Deserunt necessitatibus corrupti esse, recusandae maiores pariatur laboriosam eos?</p>
     </section>
+    <div class="flex justify-end">
+      <button id="letRoll"class="animate__animated animate__bounceInLeft bg-red-500 hover:bg-red-700 text-white font-bold my-3 p-3">Let's Roll</button>
+    </div>
+    <div id="chef" class="flex justify-end">
+      <img class="animate__animated animate__bounceInUp" src="assets/images/Nac-chef.png">
+    </div>
 
     <form id="form" class=" form bg-black hidden animate__animated animate__bounceInRight  p-10 my-3">
       <label class="block text-white">
@@ -75,25 +81,25 @@
       
     </form>
 
-    <div class="flex justify-end">
-      <button id="letRoll"class="animate__animated animate__bounceInLeft bg-red-500 hover:bg-red-700 text-white font-bold my-3 p-3">Let's Roll</button>
-    </div>
-    <div id="chef" class="flex justify-end">
-      <img class="animate__animated animate__bounceInUp" src="assets/images/Nac-chef.png">
-    </div>
-    <div id ="movie-image" class="hidden">
+    <div id ="movie-image" class="hidden my-5" style ="width: 1400px; height: 150 ; ">
       <img src="assets/images/NaC-movie.png">
     </div>
 
-    <div id="result-background" class="hidden flex bg-black my-4">
-      <div id="movie" class=" hidden flex-grow h-16 bg-white text-black m-7">
-        <h2>Movie</h2>
+    <div id="result-background" class="hidden flex bg-black my-4 p-5">
+      <div id="movie-background" class=" flex-grow h-16 bg-white p-5 text-black">
+        <h2 id="movie" class="hidden">Movie</h2>
       </div>
-      <div id="pairs-well-with" class=" hidden flex-grow h-16 justify-center text-white text-xl text-center justify-center m-10">
-        <h3>pairs well with</h3>
+      <div id="pairs-well-with" class="flex-grow-0 h-16 justify-center text-white text-xl text-center justify-center my-10 ">
+        <div class="block">
+        <h3 class="text-base">pairs well with</h3>
+        <div class="flex">
+        <button class="flex-1 flex justify-start text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2">Check</button>
+        <button class="flex-1 flex justify-end text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2">Back</button>
+        </div>
+        </div>
       </div>
-      <div id ="food" class=" hidden flex-grow h-16 bg-white text-black m-7">
-        <h2>Food</h2>
+      <div id ="food-background" class="flex-grow h-16 bg-white p-5 text-black">
+        <h2 id="food" class="hidden">Food</h2>
       </div>
 
     </div>

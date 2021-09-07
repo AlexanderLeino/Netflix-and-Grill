@@ -101,7 +101,7 @@ function showSuccess(e) {
   e.classList.remove('border-red-500')
   e.classList.add('text-black','border-green-500','border-solid' ,'border-2','p-2','animate__animated','animate__bounce')
   e.addEventListener('animationend', function() {
-        e.classList.remove('animate__animated','animate__bounce')
+  e.classList.remove('animate__animated','animate__bounce')
 })
 }
 
@@ -120,10 +120,6 @@ var tastes = document.getElementById('tastes')
   },1200) 
 })
 
-var movie = document.getElementById('movie')
-var food = document.getElementById('food')
-var movieImage = document.getElementById('movie-image')
-var resultBackground = document.getElementById('result-background')
 
 function replaceFormWithResult(){
   form.classList.add('animate__animated','animate__bounceOutLeft', 'animate__faster')
@@ -131,19 +127,38 @@ function replaceFormWithResult(){
 }
 
 function generateResult() {
-  form.classList.add('hidden')
-  movieImage.classList.remove('hidden')
-  movieImage.classList.add('animate__animated','animate__bounceInRight','animate__slower')
-  resultBackground.classList.remove('hidden')
-  
 
-setTimeout(function() {
+var movie= document.getElementById('movie')
+var pairsWellWith = document.getElementById('pairs-well-with')
+var food = document.getElementById('food')
+var resultBackground = document.getElementById('result-background')
+console.log(resultBackground)
+
+form.classList.add('hidden')
+resultBackground.classList.remove('hidden')
+resultBackground.classList.add('animate__animated','animate__fadeInUp','animate__slower')
+resultBackground.addEventListener('animationend', function() {
   movie.classList.remove('hidden')
   food.classList.remove('hidden')
-  movie.classList.add('animate__animated','animate__bounceInDown','animate__slower')
-  food.classList.add('animate__animated','animate__bounceInUp','animate__slower','animate__delay-2s')
-  },2000)
-}
+  movie.classList.add('animate__animated','animate__fadeInDown','animate__slower')
+  food.classList.add('animate__animated','animate__fadeInUp','animate__slower')
+})
+
+
+
+  }
+
+
+  
+
+// setTimeout(function() {
+//   resultBackground.classList.remove('hidden')
+//   movie.classList.remove('hidden')
+//   food.classList.remove('hidden')
+//   movie.classList.add('animate__animated','animate__bounceInDown','animate__slower')
+//   food.classList.add('animate__animated','animate__bounceInUp','animate__slower','animate__delay-2s')
+//   },2000)
+// }
 
 //  setTimeout(function() {
 //     resultBackground.classList.remove('hidden')
