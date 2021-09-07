@@ -1,0 +1,18 @@
+:root{
+  --success-color:green;
+  --error-color: red; 
+}
+
+
+
+body {
+  background-color : white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin:0
+}
+.form {
+  padding : 30px 40px;
+
+}
