@@ -1,14 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix and Grill</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix and Grill</title>
+  <!----tailwind css---->
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <!-----animate css------->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!----style css-->
+  <link rel="stylesheet" href="assets/style.css">
+
+
 </head>
 <body>
-    <button id="send-call">Send IT!</button>
-    <script src="keys.js"></script>
-    <script src="./assets/script.js"></script>
-</body>
+  <div class="container my-3 px-4">
+    <header class="animate__animated animate__slideInDown text-center bg-red-600 text-white text-5xl p-5">
+    <h1 class="display-4">Netflix and Grill</h1>
+    </header>
+
+    <section id="section-1" class="cool-intro animate__animated animate__bounceInRight bg-black p-5 mt-3">
+      <h1 class="text-3xl text-white">[cool intro]</h1>
+      <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero eos, architecto nostrum id explicabo corrupti veritatis repellat libero molestias, quasi delectus! Deserunt necessitatibus corrupti esse, recusandae maiores pariatur laboriosam eos?</p>
+    </section>
+
+    <form id="form" class=" form bg-black hidden animate__animated animate__bounceInRight  p-10 my-3">
+      <label class="block text-white">
+      <div id="kid-friendly" class ="text-xl">
+        <h4>Is it going to be a kid-friendly movie night?</h4>
+        <select class="select-change">
+          <option>let us know</option>
+          <option class="text-black">Yes</option>
+          <option class="text-black">No</option>
+        </select>
+      </div>
+      <div id="genres-movie" class ="text-xl">
+        <h4>What genres of movies is your favourite?</h4>
+        <select class="select-change">
+          <option>let us know</option>
+          <option class="text-black">Yes</option>
+          <option class="text-black">No</option>
+        </select>
+      </div>
+      <div id="people-count" class ="text-xl">
+        <h4>How many peole are going to join you? </h4>
+        <select class="select-change">
+          <option>let us know</option>
+          <option class="text-black">0-2</option>
+          <option class="text-black">2-4</option>
+          <option class="text-black">4-6</option>
+          <option class="text-black">6-8</option>
+        </select>
+      </div>
+      <div id="tastes" class ="text-xl">
+        <h4>What tastes are you craving now?</h4>
+        <select class="select-change">
+          <option>let us know</option>
+          <option class="text-black">Sweet</option>
+          <option class="text-black">Sour</option>
+          <option class="text-black">Salty</option>
+          <option class="text-black">Bitter</option>
+          <option class="text-black">Umami</option>
+        </select>
+      </div>
+
+      </label>
+      <div class="flex justify-end">
+        <button id="submit" class=" flex justify-end text-white">submit</button>
+      </div>
+      <div class="flex justify-end">
+      <small id="small" class="hidden ">Error message</small>
+      </div>
+      
+    </form>
+
+    <div class="flex justify-end">
+      <button id="letRoll"class="animate__animated animate__bounceInLeft bg-red-500 hover:bg-red-700 text-white font-bold my-3 p-3">Let's Roll</button>
+    </div>
+    <div id="chef" class="flex justify-end">
+      <img class="animate__animated animate__bounceInUp" src="assets/images/Nac-chef.png">
+    </div>
+    <!-- <div>
+      <img id="cooking" class="hidden animate__infinite animate__animated animate__bounceInRight" src="assets/images/NaC-cooking.png" style="height: 150px; width: 100px; animation-duration: 10s;">
+    </div> -->
+  </div>
+
+    <!-- <div class="animate__animated animate__lightSpeedInRight">Test</div> -->
+    
+  <script src="assets/script.js"></script>
+  </body>
 </html>
