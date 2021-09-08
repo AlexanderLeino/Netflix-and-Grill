@@ -119,7 +119,7 @@ var tastes = document.getElementById('tastes')
     replaceFormWithResult()
   },1200) 
 })
-
+ //<----Replace Form with Result Page---->
 
 function replaceFormWithResult(){
   form.classList.add('animate__animated','animate__bounceOutLeft', 'animate__faster')
@@ -143,28 +143,4 @@ resultBackground.addEventListener('animationend', function() {
   movie.classList.add('animate__animated','animate__fadeInDown','animate__slower')
   food.classList.add('animate__animated','animate__fadeInUp','animate__slower')
 })
-
-
-
-  }
-
-
-  
-
-// setTimeout(function() {
-//   resultBackground.classList.remove('hidden')
-//   movie.classList.remove('hidden')
-//   food.classList.remove('hidden')
-//   movie.classList.add('animate__animated','animate__bounceInDown','animate__slower')
-//   food.classList.add('animate__animated','animate__bounceInUp','animate__slower','animate__delay-2s')
-//   },2000)
-// }
-
-//  setTimeout(function() {
-//     resultBackground.classList.remove('hidden')
-
-//     movie.classList.add('animate__animated','animate__bounceInDown','animate__slower')
-//     food.classList.add('animate__animated','animate__bounceInUp','animate__slower','animate__delay-2s')
-//   },3000)
-// }
-// generateResult()
+}
