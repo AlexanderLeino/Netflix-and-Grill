@@ -1,5 +1,6 @@
 var letRollBtn = document.getElementById('letRoll')
 var submitBtn = document.getElementById('submit')
+var form= document.getElementById('form')
 
 
 // <!-Replace Section with Form-->
@@ -114,7 +115,7 @@ function checkRequired(selectArr) {
         }
     })
 }
-
+//<---show Error Message---->
 
 function showErrorMessage(e, message) {
     e.classList.remove('border-green-500')
@@ -124,6 +125,7 @@ function showErrorMessage(e, message) {
     small.classList.remove('hidden')
     small.classList.add('text-white')
 }
+//<---show Success Message--->
 function showSuccess(e) {
     e.classList.remove('border-red-500')
     e.classList.add('text-black', 'border-green-500', 'border-solid', 'border-2', 'p-2', 'animate__animated', 'animate__bounce')
@@ -136,15 +138,52 @@ form.addEventListener('submit', function (e) {
     e.preventDefault();
     checkRequired([kidFriendly, movieGenres, peopleCount, tastes])
 })
-//   var selectChange=document.getElementsByClassName('select-change')
-//       for (var i=0; i< selectChange.length; i++) {
-//         console.log(selectChange[i].selectedIndex)
-//         if(selectChange[i].selectedIndex === 0 ) {
-//           showErrorMessage()
-//         }else{
-//           showSuccess()
-//         }
-//       }
 
-//     })
 
+function replaceFormWithResult(){
+  form.classList.add('animate__animated','animate__bounceOutLeft', 'animate__faster')
+  form.addEventListener('animationend', generateResult)
+}
+
+function generateResult() {
+
+var movie= document.getElementById('movie')
+var pairsWellWith = document.getElementById('pairs-well-with')
+var food = document.getElementById('food')
+var resultBackground = document.getElementById('result-background')
+console.log(resultBackground)
+
+form.classList.add('hidden')
+resultBackground.classList.remove('hidden')
+resultBackground.classList.add('animate__animated','animate__fadeInUp','animate__slower')
+resultBackground.addEventListener('animationend', function() {
+  movie.classList.remove('hidden')
+  food.classList.remove('hidden')
+  movie.classList.add('animate__animated','animate__fadeInDown','animate__slower')
+  food.classList.add('animate__animated','animate__fadeInUp','animate__slower')
+})
+
+
+
+  }
+
+
+  
+
+// setTimeout(function() {
+//   resultBackground.classList.remove('hidden')
+//   movie.classList.remove('hidden')
+//   food.classList.remove('hidden')
+//   movie.classList.add('animate__animated','animate__bounceInDown','animate__slower')
+//   food.classList.add('animate__animated','animate__bounceInUp','animate__slower','animate__delay-2s')
+//   },2000)
+// }
+
+//  setTimeout(function() {
+//     resultBackground.classList.remove('hidden')
+
+//     movie.classList.add('animate__animated','animate__bounceInDown','animate__slower')
+//     food.classList.add('animate__animated','animate__bounceInUp','animate__slower','animate__delay-2s')
+//   },3000)
+// }
+// generateResult()
