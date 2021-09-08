@@ -144,3 +144,5 @@ resultBackground.addEventListener('animationend', function() {
   food.classList.add('animate__animated','animate__fadeInUp','animate__slower')
 })
 }
+//<---- alex code ---->
+
