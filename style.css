@@ -1,0 +1,98 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.parent {
+    background-color: black;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+.child {
+    font-size: 100px;
+    font-weight: bold;
+    animation: intro 1s forwards;
+    color: red;
+    border-radius: 5%;
+    
+}
+
+
+.underline{
+    background-color: white;
+    height: 10px;
+    width: 10px;
+}
+
+@keyframes intro {
+0% {
+    transform: translateY(-300%);
+    background-color: purple;
+    color: white;
+    padding: 10px;
+}
+10% {
+    border:rgba(255, 0, 0, 0.2);
+    
+    background-color: blue;
+    color: white;
+}
+
+20% {
+    border:rgba(255, 0, 0, 0.4) solid 10px;
+    background-color: green;
+    color: white;
+}
+
+30% {
+    border: solid 10px rgba(255, 0, 0, 0.6);
+    background-color: yellowgreen;
+    color: white;
+}
+    
+40% {
+    border: solid 10px rgba(255, 0, 0, 0.8);
+    padding: 30px;
+    background-color: yellow;
+
+}
+50% {
+    border: solid 10px rgba(255, 0, 0, 1);
+    padding: 30px;
+    background-color: orange;
+}
+60% {
+    border: solid 10px rgba(255, 0, 0, 1);
+    
+}
+
+70% {
+    border: solid 10px rgba(255, 0, 0, 1);
+    
+
+}
+
+80% {
+    border: solid 10px rgba(255, 0, 0, 1);
+    padding: 125px
+   
+}
+    
+90% {
+    border: solid 10px rgba(255, 0, 0, 1);
+   
+}
+100% {
+    border: solid 10px rgba(255, 0, 0, 1);
+    padding: 100px;
+    background-color: black;
+}
+}
+
+
+    
