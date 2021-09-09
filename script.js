@@ -3,6 +3,26 @@ var submitBtn = document.getElementById('submit')
 var form= document.getElementById('form')
 
 
+//<---Replace Intro with Section--->
+var intro = document.getElementById('intro')
+var child= document.getElementById('child')
+intro.addEventListener('animationend', function() {
+  setTimeout( function() {
+    child.style.removeProperty('animation')
+
+    child.classList.add('animate__animated','animate__fadeOutUp','animate__slower')
+    child.addEventListener('animationend', function () {  
+      intro.classList.add('hidden')
+      container.classList.remove('hidden')
+    })
+
+  },1000)
+  // var container= document.getElementById('container')
+  
+})
+
+
+
 // <!-Replace Section with Form-->
 function replaceSectionWithForm() {
   var imgChef=document.getElementById('chef')

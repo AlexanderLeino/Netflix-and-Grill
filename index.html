@@ -10,12 +10,17 @@
   <!-----animate css------->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!----style css-->
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="style.css">
 
 
 </head>
 <body>
-  <div class="container my-3 px-4">
+    <div id="intro" class="box">
+        <div class="parent">
+            <div class="child" id="child" style="animation: intro 1s forwards;">Netflix and Grill</div>
+        </div>
+    </div>
+  <div id="container" class=" hidden container my-3 px-4">
     <header class="animate__animated animate__slideInDown text-center bg-red-600 text-white text-5xl p-5">
     <h1 class="display-4">Netflix and Grill</h1>
     </header>
@@ -122,6 +127,7 @@
 
     <!-- <div class="animate__animated animate__lightSpeedInRight">Test</div> -->
     
-  <script src="assets/script.js"></script>
+  <script src="script.js"></script>
   </body>
+
 </html>
