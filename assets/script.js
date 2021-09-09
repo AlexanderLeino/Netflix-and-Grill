@@ -1,5 +1,4 @@
-
-let movieBaseUrl = 'https://unogsng.p.rapidapi.com/' // Append queries to this string
+let movieBaseUrl = "https://unogsng.p.rapidapi.com/" // Append queries to this string
 let movieFetchObj = {
   "method": "GET",
   "headers": {
@@ -7,11 +6,21 @@ let movieFetchObj = {
     "x-rapidapi-key": rapidAPIKey
   }
 }
+let tastyBaseUrl = "https://tasty.p.rapidapi.com/recipes"
+let tastyFetchObj = {
+  "method": "GET",
+  "headers": {
+    "x-rapidapi-host": "tasty.p.rapidapi.com",
+    "x-rapidapi-key": rapidAPIKey
+  }
+}
+let section = document.getElementById('section-1')
 let letRollBtn = document.getElementById('letRoll')
 let submitBtn = document.getElementById('submit')
 let form = document.getElementById('form')
-let foodBaseUrl = `https://www.themealdb.com/api/json/v2/${mealDbKey}/`
 let pastRecipes = []
+let netflixGenres
+
 // button.addEventListener('click', function (e) {
 //     e.preventDefault()
 //     let url = movieBaseUrl + 'search?genrelist=794&type=movie&orderby=rating&audiosubtitle_andor=and&limit=100&subtitle=english&countrylist=78&offset=0'
@@ -30,15 +39,23 @@ function trackAPICalls(response) {
   return response.headers.get("x-ratelimit-requests-remaining")
 }
 
-class recipeSuggestion {
-  constructor(name, descriptions, num_servings, recipe) {
-    this.name = name
-    this.descriptions = descriptions
-    this.num_servings = num_servings
-    this.recipe = recipe
+class movieSuggestion {
+  constructor(title, description, rating, runtime, isTop250, posterImg) {
+    this.title = title
+    this.description = description
+    this.rating = rating
+    this.runtime = runtime
+    this.isTop250 = isTop250
+    this.posterImg = posterImg
   }
-  getName() {
-    return this.name
+}
+
+class recipeSuggestion {
+  constructor(name, description, num_servings, instructions) {
+    this.name = name
+    this.description = description
+    this.num_servings = num_servings
+    this.instructions = instructions
   }
 }
 
@@ -54,12 +71,11 @@ function replaceSectionWithForm() {
   imgChef.addEventListener('animationend', function () {
     imgChef.classList.add('hidden')
   })
-  
-  var section = document.getElementById('section-1')
+
   section.classList.add('animate__animated', 'animate__bounceOutLeft', 'animate__faster')
-  
+
   section.addEventListener('animationend', generateForm)
-  
+
   function generateForm() {
     section.classList.add('hidden')
     form.classList.remove('hidden')
@@ -70,34 +86,33 @@ function replaceSectionWithForm() {
 }
 
 function showSubmitBtn() {
-  
   var text = 'Show Me'
   submitBtn.textContent = text
   submitBtn.setAttribute('class', 'animate__animated bg-red-500 hover:bg-red-700 text-white font-bold my-3 p-3 shadow-inner')
 }
 
-// <------Changing Select in Form---->
-function addSelectClasses(element) {
-  element.classList.add('mt-2', 'mb-3', 'text-sm', 'text-gray-300', 'p-2')
-}
 
-function addSelectedIndex(element) {
-  element.addEventListener('change', getSelectedIndex)
-}
 
 
 function getSelectedIndex() {
   if (this.selectedIndex === 0) {
     this.classList.add('text-gray-300', 'text-sm', 'border-green-500')
     this.classList.remove('text-black', 'text-lg')
+  } else {
+    this.classList.remove('text-gray-300', 'text-sm')
+    this.classList.add('text-black', 'text-lg',)
+    this.classList.add('animate__animated', 'animate__bounce')
+    this.addEventListener('animationend', function () {
+      this.classList.remove('animate__animated', 'animate__bounce')
+    })
   }
 }
-function selectChange() {
-  
+function generateSelectOptions() {
+
   var selectChange = document.getElementsByClassName('select-change')
   for (var i = 0; i < selectChange.length; i++) {
-    addSelectClasses(selectChange[i])
-    addSelectedIndex(selectChange[i])
+    selectChange[i].classList.add('mt-2', 'mb-3', 'text-sm', 'text-gray-300', 'p-2')
+    selectChange[i].addEventListener('change', getSelectedIndex)
   }
 }
 
@@ -109,13 +124,13 @@ function checkRequired(selectArr) {
     if (select.selectedIndex === 0) {
       showErrorMessage(select, 'All fields are required')
       addSelectClasses(select)
-      addSelectedIndex(select)
+      getSelectedIndex(select)
       validForm = false
-      
+
     } else {
       showSuccess(select)
-      
-      
+
+
     }
   })
   return validForm
@@ -139,18 +154,32 @@ function showSuccess(e) {
 
 
 function replaceFormWithResult() {
+  if (localStorage.getItem('netflixGenres')) {
+    netflixGenres = JSON.parse(localStorage.getItem('netflixGenres'))
+  } else {
+    fetch(movieBaseUrl + "genres", movieFetchObj)
+      .then(response => {
+        return response.json()
+      })
+      .then(data => {
+        console.log(data)
+        netflixGenres = data
+        localStorage.setItem('netflixGenres', JSON.stringify(netflixGenres))
+      })
+
+  }
   form.classList.add('animate__animated', 'animate__bounceOutLeft', 'animate__faster')
   form.addEventListener('animationend', generateResult)
 }
 
 function generateResult() {
-  
+
   var movie = document.getElementById('movie')
   var pairsWellWith = document.getElementById('pairs-well-with')
   var food = document.getElementById('food')
   var resultBackground = document.getElementById('result-background')
   console.log(resultBackground)
-  
+
   form.classList.add('hidden')
   resultBackground.classList.remove('hidden')
   resultBackground.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slower')
@@ -160,15 +189,17 @@ function generateResult() {
     movie.classList.add('animate__animated', 'animate__fadeInDown', 'animate__slower')
     food.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slower')
   })
-  
-  
-  
+
+
+
 }
 
-selectChange()
+generateSelectOptions()
 letRollBtn.addEventListener('click', replaceSectionWithForm)
+// Make api request
 form.addEventListener('submit', function (e) {
   e.preventDefault();
+
   var kidFriendly = document.getElementById('kid-friendly')
   var movieGenres = document.getElementById('genres-movie')
   var peopleCount = document.getElementById('people-count')
@@ -179,7 +210,7 @@ form.addEventListener('submit', function (e) {
   }
   setTimeout(function () {
     replaceFormWithResult()
-  }, 1200)
+  }, 300)
 })
 
 
@@ -192,18 +223,18 @@ form.addEventListener('submit', function (e) {
   //   food.classList.add('animate__animated','animate__bounceInUp','animate__slower','animate__delay-2s')
   //   },2000)
   // }
-  
+
   //  setTimeout(function() {
     //     resultBackground.classList.remove('hidden')
-    
+
     //     movie.classList.add('animate__animated','animate__bounceInDown','animate__slower')
     //     food.classList.add('animate__animated','animate__bounceInUp','animate__slower','animate__delay-2s')
     //   },3000)
     // }
     // generateResult()
-    
-    
-    
+
+
+
     // fetch("https://tasty.p.rapidapi.com/recipes/list?from=0&size=20&tags=under_30_minutes", {
     //   "method": "GET",
     //   "headers": {
@@ -269,5 +300,5 @@ form.addEventListener('submit', function (e) {
     // /**/
     // // Possible issues they use the words instructions and recipe simultaniously 
     // // Also we need to be able to filter out length for each data type because some are longer than others.
-    
+
     // //  ======================================== //
