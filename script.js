@@ -201,7 +201,7 @@ function showErrorMessage(e, message) {
 // Show Success Message
 function showSuccess(e) {
   e.classList.remove('border-red-500')
-  e.classList.add('text-black', 'border-green-500', 'border-solid', 'border-2', 'p-2')
+  e.classList.add('text-black', 'border-green-500', 'border-solid', 'border-2', 'p-2','animate__animated', 'animate__bounce')
 }
 
 // Create movie card
