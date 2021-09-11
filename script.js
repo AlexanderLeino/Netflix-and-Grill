@@ -23,7 +23,7 @@ let pairsWellWith = document.getElementById('pairs-well-with')
 let foodContainer = document.getElementById('food-background')
 let resultBackground = document.getElementById('result-background')
 let backBtn = document.getElementById('back-to-form')
-let randomMovie
+let randomMovie, randomRecipe
 
 let pastRecipes = []
 let netflixGenres = {
@@ -34,7 +34,8 @@ let netflixGenres = {
   "Films in Various Languages": ["262", "798", "799", "1105", "1613", "3761", "3960", "5230", "5254", "5480", "5685", "5875", "5977", "6133", "6299", "7825", "8221", "8248", "9196", "9292", "10398", "10463", "10606", "26835", "29764", "31853", "56181", "56184", "58676", "58700", "58741", "58750", "58755", "58796", "58798"],
   "Action": ["899", "2653", "4344", "27018", "27756", "30140", "31244", "7700", "8985", "8999", "43048", "9584", "10702", "11804", "46576", "47465", "70023", "48744", "75418", "76501", "76510", "77232", "90176", "801362", "852490"],
   "Sports": ["4370", "7243", "9327", "12339", "12443", "12762", "12549", "12549"],
-  "Horror": ["1694", "947", "4809", "6895", "6998", "8195", "8646", "8711", "9509", "10750", "10944", "42023", "45028", "48303", "52147", "65209", "75405", "75804", "75930", "89585", "1475312"], "Superhero": ["10118", "67698"],
+  "Horror": ["1694", "947", "4809", "6895", "6998", "8195", "8646", "8711", "9509", "10750", "10944", "42023", "45028", "48303", "52147", "65209", "75405", "75804", "75930", "89585", "1475312"],
+  "Superhero": ["10118", "67698"],
   "Thriller": ["972", "1321", "1774", "3269", "5505", "6047", "6867", "8933", "9147", "10306", "10504", "10719", "11014", "11140", "11283", "46588", "65558", "75390", "78507", "852488", "1663282"],
   "Mystery": ["79049"],
   "Adventure": ["1159", "1252", "7442", "8248", "52858"],
@@ -84,11 +85,12 @@ class movieSuggestion {
 }
 
 class recipeSuggestion {
-  constructor(name, description, num_servings, instructions) {
+  constructor(name, image, num_servings, instructions, link) {
     this.name = name
-    this.description = description
+    this.image = image
     this.num_servings = num_servings
     this.instructions = instructions
+    this.link = link
   }
 }
 
@@ -207,14 +209,18 @@ function showSuccess(e) {
 // Create movie card
 function createMovieCard(movie) {
   console.log(movie)
+  if (movie.poster === 'N/A') {
+    posterImageEl.innerHTML = 'Sorry, couldn\'t find the poster of the movie.'
+  } else {
+    let posterImageEl = document.createElement('img')
+    posterImageEl.setAttribute('src', movie.posterImg)
+    movieContainer.appendChild(posterImageEl)
+  }
 
-  let posterImageEl = document.createElement('img')
-  posterImageEl.setAttribute('src', movie.posterImg)
-  movieContainer.appendChild(posterImageEl)
-
-  let titleEl = document.createElement('h2')
-  titleEl.innerHTML = movie.title
-  movieContainer.appendChild(titleEl)
+  let movieTitleEl = document.createElement('h2')
+  movieTitleEl.innerHTML = movie.title
+  movieTitleEl.classList.add('text-2x1')
+  movieContainer.appendChild(movieTitleEl)
 
   let synopsisEl = document.createElement('p')
   synopsisEl.innerHTML = movie.description
@@ -222,7 +228,21 @@ function createMovieCard(movie) {
 }
 
 function createRecipeCard(recipe) {
+  console.log(recipe)
+  let foodImgEl = document.createElement('img')
+  foodImgEl.setAttribute('src', recipe.image)
+  foodContainer.appendChild(foodImgEl)
 
+  let foodTitleEl = document.createElement('h2')
+  foodTitleEl.innerHTML = recipe.name
+  foodContainer.appendChild(foodTitleEl)
+
+  if (recipe.link !== null) {
+    let foodLink = document.createElement('a')
+    foodLink.href = recipe.link
+    foodLink.innerText = 'Click here for a video'
+    foodContainer.appendChild(foodLink)
+  }
 }
 
 
@@ -271,8 +291,8 @@ form.addEventListener('submit', function (e) {
     // Get recipe suggestion
     if (localStorage.getItem('meals')) {
       let y = JSON.parse(localStorage.getItem('meals'))
-      console.log(y)
-      createRecipeCard(new recipeSuggestion)
+      randomRecipe = y['results'][Math.floor(Math.random() * y['results'].length)]
+      createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, randomRecipe.num_servings, randomRecipe.instructions, randomRecipe.original_video_url))
       removeForm()
     } else {
       let query = '?from=0&size=100&tags=mexican'
@@ -283,7 +303,8 @@ form.addEventListener('submit', function (e) {
         })
         .then(data => {
           localStorage.setItem('meals', JSON.stringify(data))
-          console.log(data)
+          randomRecipe = data['results'][Math.floor(Math.random() * data['results'].length)]
+          createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, randomRecipe.num_servings, randomRecipe.instructions, randomRecipe.original_video_url))
           removeForm()
         })
     }
