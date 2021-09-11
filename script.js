@@ -243,6 +243,7 @@ form.addEventListener('submit', function (e) {
     return
   } else {
     // Get movie suggestion
+    
     let chosenGenre = netflixGenres[movieGenres.children[1].value]
     let genreArray = chosenGenre.join(',')
     let query = "?genrelist=" + genreArray + "&audiosubtitle_andor=and&countrylist=46&audio=english&country_andorunique=country&type=movie&start_rating=6"
