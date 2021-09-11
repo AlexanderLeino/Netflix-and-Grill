@@ -12,12 +12,19 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin:0
+    margin:0;
   }
 .form {
     padding : 20px 30px;
   
   }
+.netflix-grill-title{
+    font-family: 'Bebas Neue', cursive;
+}
+h1.netflix-grill-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 93px;
+}
   
 .parent {
     background-color: black;
@@ -41,7 +48,7 @@ body {
 
 
 .underline{
-    background-color: white;
+    background-color: black;
     height: 10px;
     width: 10px;
 }
