@@ -8,16 +8,33 @@
   }
   
 body {
-    background-color : white;
+    background-color : black;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin:0
-  }
+    margin:0;
+    font-size: 25px!important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif!important;
+}
+  
 .form {
     padding : 20px 30px;
   
   }
+.netflix-grill-intro-text {
+    font-size: 175px!important;
+    font-family: 'Bebas Neue', cursive;
+}
+h1.netflix-grill-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 93px;
+}
+
+h1.welcome-screen {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    color: red;
+}
   
 .parent {
     background-color: black;
@@ -32,7 +49,7 @@ body {
 
 .child {
     border: solid 10px rgba(255, 0, 0, 1);
-    padding: 100px;
+    padding: 70px;
     font-size: 100px;
     font-weight: bold;
     color: red;
@@ -41,10 +58,11 @@ body {
 
 
 .underline{
-    background-color: white;
+    background-color: black;
     height: 10px;
     width: 10px;
 }
+
 
 @keyframes intro {
 0% {
@@ -80,7 +98,7 @@ body {
 }
 50% {
     border: solid 10px rgba(255, 0, 0, 1);
-    padding: 30px;
+    padding: 50px;
     background-color: orange;
 }
 60% {
@@ -96,7 +114,7 @@ body {
 
 80% {
     border: solid 10px rgba(255, 0, 0, 1);
-    padding: 125px
+    padding: 85px
    
 }
     
@@ -106,7 +124,7 @@ body {
 }
 100% {
     border: solid 10px rgba(255, 0, 0, 1);
-    padding: 100px;
+    padding: 65px;
     background-color: black;
 }
 }
