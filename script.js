@@ -74,6 +74,32 @@ function removeSection() {
   imgChef.classList.add('animate__animated', 'animate__bounceOutDown', 'animate__faster')
   imgChef.addEventListener('animationend', function () {
     imgChef.classList.add('hidden')
+//<---Replace Intro with Section--->
+var intro = document.getElementById('intro')
+var child= document.getElementById('child')
+intro.addEventListener('animationend', function() {
+  setTimeout( function() {
+    child.style.removeProperty('animation')
+
+    child.classList.add('animate__animated','animate__fadeOutUp','animate__slower')
+    child.addEventListener('animationend', function () {  
+      intro.classList.add('hidden')
+      container.classList.remove('hidden')
+    })
+
+  },1000)
+  // var container= document.getElementById('container')
+  
+})
+
+
+
+// <!-Replace Section with Form-->
+function replaceSectionWithForm() {
+  var imgChef=document.getElementById('chef')
+  imgChef.classList.add('animate__animated','animate__bounceOutDown','animate__faster' )
+  imgChef.addEventListener('animationend', function() {
+  imgChef.classList.add('hidden')
   })
 
   //  Remove open page and when it ends, generate the form
