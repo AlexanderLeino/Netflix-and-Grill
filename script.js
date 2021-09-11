@@ -127,16 +127,17 @@ function showSubmitBtn() {
   submitBtn.setAttribute('class', 'animate__animated bg-red-500 hover:bg-red-700 text-white font-bold my-3 p-3 shadow-inner')
 }
 
-function getSelectedIndex() {
-  if (this.selectedIndex === 0) {
-    this.classList.add('text-gray-300', 'text-sm', 'border-green-500')
-    this.classList.remove('text-black', 'text-lg')
+//<---set select style based on selection--->
+function getSelectedIndex(e) {
+  if (e.selectedIndex === 0) {
+    e.classList.add('text-gray-300', 'text-sm',)
+    e.classList.remove('text-black', 'text-lg')
   } else {
-    this.classList.remove('text-gray-300', 'text-sm')
-    this.classList.add('text-black', 'text-lg',)
-    this.classList.add('animate__animated', 'animate__bounce')
-    this.addEventListener('animationend', function () {
-      this.classList.remove('animate__animated', 'animate__bounce')
+    e.classList.remove('text-gray-300', 'text-sm')
+    e.classList.add('text-black', 'text-lg',)
+    e.classList.add('animate__animated', 'animate__bounce')
+    e.addEventListener('animationend', function () {
+      e.classList.remove('animate__animated', 'animate__bounce')
     })
   }
 }
@@ -145,7 +146,10 @@ function generateSelectOptions() {
   let selectChange = document.getElementsByClassName('select-change')
   for (let i = 0; i < selectChange.length; i++) {
     selectChange[i].classList.add('mt-2', 'mb-3', 'text-sm', 'text-gray-300', 'p-2')
-    selectChange[i].addEventListener('change', getSelectedIndex)
+    selectChange[i].addEventListener('change', function (event) {
+      event.target.classList.remove('border-red-500')
+      getSelectedIndex(event.target)
+    })
   }
 }
 
@@ -153,18 +157,24 @@ function generateSelectOptions() {
 
 // Remove form and display result
 function removeForm() {
+  // form.classList.remove('')
+  // form.classList.add('animate__animated','animate__bounce','border-green-500')
+  form.classList.remove('animate__animated', 'animate__bounceInRight')
   form.classList.add('animate__animated', 'animate__bounceOutLeft', 'animate__faster')
-  form.addEventListener('animationend', showResult)
+  form.addEventListener('animationend', function() {
+    form.classList.add('hidden')
+    showResult()
+  })
 }
 function showResult() {
 
 
-  form.classList.add('hidden')
   resultBackground.classList.remove('hidden')
-  resultBackground.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slower')
+  pairsWellWith.classList.remove('hidden')
+  resultBackground.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slow')
   resultBackground.addEventListener('animationend', function () {
-    movieContainer.classList.remove('hidden')
-    foodContainer.classList.remove('hidden')
+    movieContainer.classList.remove('invisible')
+    foodContainer.classList.remove('invisible')
     movieContainer.classList.add('animate__animated', 'animate__fadeInDown', 'animate__slower')
     foodContainer.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slower')
   })
@@ -176,12 +186,13 @@ function checkRequired(selectArr) {
   let validForm
   selectArr.forEach(function (item) {
     let select = item.querySelector('.select-change')
+    console.log(item)
+    console.log(select)
     if (select.selectedIndex === 0) {
       showErrorMessage(select, 'All fields are required')
-      addSelectClasses(select)
+      // addSelectClasses(select)
       getSelectedIndex(select)
       validForm = false
-
     } else {
       showSuccess(select)
       validForm = true
@@ -262,52 +273,56 @@ form.addEventListener('submit', function (e) {
   let kidFriendly = document.getElementById('kid-friendly')
   let movieGenres = document.getElementById('genres-movie')
   let peopleCount = document.getElementById('people-count')
-  let checkForm = checkRequired([kidFriendly, movieGenres, peopleCount])
+  let tastes = document.getElementById('tastes')
+
+  let checkForm = checkRequired([kidFriendly, movieGenres, peopleCount,tastes])
   if (checkForm === false) {
     return
   } else {
+   console.log("setting timeout")
     // Get movie suggestion
-    
-    let chosenGenre = netflixGenres[movieGenres.children[1].value]
-    let genreArray = chosenGenre.join(',')
-    let query = "?genrelist=" + genreArray + "&audiosubtitle_andor=and&countrylist=46&audio=english&country_andorunique=country&type=movie&start_rating=6"
-    if (localStorage.getItem(movieGenres.children[1].value)) {
-      let x = JSON.parse(localStorage.getItem(movieGenres.children[1].value))
-      randomMovie = x['results'][Math.floor(Math.random() * x['results'].length)]
-      createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
-    } else {
-      fetch(movieBaseUrl + query, movieFetchObj)
-        .then(response => {
-          trackAPICalls(response)
-          return response.json()
-        })
-        .then(data => {
-          localStorage.setItem(movieGenres.children[1].value, JSON.stringify(data))
-          console.log(data)
-          randomMovie = data['results'][Math.floor(Math.random() * data['results'].length)]
-          createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
+    setTimeout(function() {
+      let chosenGenre = netflixGenres[movieGenres.children[1].value]
+      let genreArray = chosenGenre.join(',')
+      let query = "?genrelist=" + genreArray + "&audiosubtitle_andor=and&countrylist=46&audio=english&country_andorunique=country&type=movie&start_rating=6"
+      if (localStorage.getItem(movieGenres.children[1].value)) {
+        let x = JSON.parse(localStorage.getItem(movieGenres.children[1].value))
+        randomMovie = x['results'][Math.floor(Math.random() * x['results'].length)]
+        createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
+      } else {
+        fetch(movieBaseUrl + query, movieFetchObj)
+          .then(response => {
+            trackAPICalls(response)
+            return response.json()
+          })
+          .then(data => {
+            localStorage.setItem(movieGenres.children[1].value, JSON.stringify(data))
+            console.log(data)
+            randomMovie = data['results'][Math.floor(Math.random() * data['results'].length)]
+            createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
 
-        })
-    }
-    // Get recipe suggestion
-    if (localStorage.getItem('meals')) {
-      let y = JSON.parse(localStorage.getItem('meals'))
-      randomRecipe = y['results'][Math.floor(Math.random() * y['results'].length)]
-      createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, randomRecipe.num_servings, randomRecipe.instructions, randomRecipe.original_video_url))
-      removeForm()
-    } else {
-      let query = '?from=0&size=100&tags=mexican'
-      fetch(tastyBaseUrl + query, tastyFetchObj)
-        .then(response => {
-          trackAPICalls(response)
-          return response.json()
-        })
-        .then(data => {
-          localStorage.setItem('meals', JSON.stringify(data))
-          randomRecipe = data['results'][Math.floor(Math.random() * data['results'].length)]
-          createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, randomRecipe.num_servings, randomRecipe.instructions, randomRecipe.original_video_url))
-          removeForm()
-        })
-    }
+          })
+      }
+      // Get recipe suggestion
+      if (localStorage.getItem('meals')) {
+        let y = JSON.parse(localStorage.getItem('meals'))
+        randomRecipe = y['results'][Math.floor(Math.random() * y['results'].length)]
+        createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, randomRecipe.num_servings, randomRecipe.instructions, randomRecipe.original_video_url))
+        removeForm()
+      } else {
+        let query = '?from=0&size=100&tags=mexican'
+        fetch(tastyBaseUrl + query, tastyFetchObj)
+          .then(response => {
+            trackAPICalls(response)
+            return response.json()
+          })
+          .then(data => {
+            localStorage.setItem('meals', JSON.stringify(data))
+            randomRecipe = data['results'][Math.floor(Math.random() * data['results'].length)]
+            createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, randomRecipe.num_servings, randomRecipe.instructions, randomRecipe.original_video_url))
+            removeForm()
+          })
+      }
+    }, 1500)
   }
 })
