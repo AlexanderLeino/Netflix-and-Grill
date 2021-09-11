@@ -124,7 +124,6 @@ h1.welcome-screen {
 }
 100% {
     border: solid 10px rgba(255, 0, 0, 1);
-    padding: 65px;
     background-color: black;
 }
 }
