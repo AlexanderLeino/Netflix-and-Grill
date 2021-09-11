@@ -221,6 +221,10 @@ function createMovieCard(movie) {
   movieContainer.appendChild(synopsisEl)
 }
 
+function createRecipeCard(recipe) {
+
+}
+
 
 // Creating form input selections
 generateSelectOptions()
@@ -266,7 +270,9 @@ form.addEventListener('submit', function (e) {
     }
     // Get recipe suggestion
     if (localStorage.getItem('meals')) {
-      console.log(JSON.parse(localStorage.getItem('meals')))
+      let y = JSON.parse(localStorage.getItem('meals'))
+      console.log(y)
+      createRecipeCard(new recipeSuggestion)
       removeForm()
     } else {
       let query = '?from=0&size=100&tags=mexican'
