@@ -18,11 +18,17 @@ let section = document.getElementById('section-1')
 let letRollBtn = document.getElementById('letRoll')
 let submitBtn = document.getElementById('submit')
 let form = document.getElementById('form')
+let movieContainer = document.getElementById('movie-background')
+let pairsWellWith = document.getElementById('pairs-well-with')
+let foodContainer = document.getElementById('food-background')
+let resultBackground = document.getElementById('result-background')
+let backBtn = document.getElementById('back-to-form')
+
 let pastRecipes = []
 let netflixGenres = {
   "Drama": ["11", "384", "452", "500", "794", "1989", "2748", "2757", "2893", "3916", "3947", "4282", "4425", "5012", "5051", "5572", "5763", "6206", "6763", "6889", "7687", "9299", "9873", "11075", "11729", "12994", "13158", "29809", "31901", "56169", "58677", "62116", "62140", "62235", "71591"],
   "Comedy": ["26", "869", "1009", "1402", "2030", "1747", "2700", "3300", "3903", "3996", "4058", "4426", "4906", "4922", "5286", "5610", "6102", "6197", "6626", "7120", "7539", "9229", "9302", "9702", "9736", "9942", "10256", "10778", "11039", "11559", "11755", "17648", "31694", "43040", "56174"],
-  "Science Ficition": ["1492", "1568", "3327", "4734", "6000", "6926", "75448", "90166", "108533", "852491", "1433679", "1626246"],
+  "Science Fiction": ["1492", "1568", "3327", "4734", "6000", "6926", "75448", "90166", "108533", "852491", "1433679", "1626246"],
   "Romance": ["3329", "3830", "5756", "6384", "7908", "9257", "9916", "13335", "13573", "16890", "17241", "29281", "31273", "32392", "35800", "36103", "52852", "53915", "58900", "61656", "62752", "78250", "107985", "1412508", "1474327", "1522234"],
   "Films in Various Languages": ["262", "798", "799", "1105", "1613", "3761", "3960", "5230", "5254", "5480", "5685", "5875", "5977", "6133", "6299", "7825", "8221", "8248", "9196", "9292", "10398", "10463", "10606", "26835", "29764", "31853", "56181", "56184", "58676", "58700", "58741", "58750", "58755", "58796", "58798"],
   "Action": ["899", "2653", "4344", "27018", "27756", "30140", "31244", "7700", "8985", "8999", "43048", "9584", "10702", "11804", "46576", "47465", "70023", "48744", "75418", "76501", "76510", "77232", "90176", "801362", "852490"],
@@ -52,6 +58,9 @@ class movieSuggestion {
     this.runtime = runtime
     this.isTop250 = isTop250
     this.posterImg = posterImg
+  }
+  createMovieCard() {
+    movieContainer
   }
 }
 
@@ -126,13 +135,8 @@ function removeForm() {
   form.classList.add('animate__animated', 'animate__bounceOutLeft', 'animate__faster')
   form.addEventListener('animationend', showResult)
 }
-
 function showResult() {
 
-  let movieContainer = document.getElementById('movie')
-  let pairsWellWith = document.getElementById('pairs-well-with')
-  let foodContainer = document.getElementById('food')
-  let resultBackground = document.getElementById('result-background')
 
   form.classList.add('hidden')
   resultBackground.classList.remove('hidden')
@@ -144,6 +148,7 @@ function showResult() {
     foodContainer.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slower')
   })
 }
+
 
 // Check if user selected all required criteria
 function checkRequired(selectArr) {
@@ -180,10 +185,15 @@ function showSuccess(e) {
   e.classList.add('text-black', 'border-green-500', 'border-solid', 'border-2', 'p-2')
 }
 
+// Creating form input selections
 generateSelectOptions()
+
+// Event listener for first button
 letRollBtn.addEventListener('click', removeSection)
 
-// Make api request
+
+
+// Make api request when user submits their form
 form.addEventListener('submit', function (e) {
   e.preventDefault();
 
@@ -197,7 +207,6 @@ form.addEventListener('submit', function (e) {
     // Get movie suggestion
     let chosenGenre = netflixGenres[movieGenres.children[1].value]
     let genreArray = chosenGenre.join(',')
-    console.log(genreArray)
     let query = "?genrelist=" + genreArray + "&audiosubtitle_andor=and&countrylist=46&audio=english&country_andorunique=country&type=movie&start_rating=6"
     if (localStorage.getItem(movieGenres.children[1].value)) {
       let x = JSON.parse(localStorage.getItem(movieGenres.children[1].value))
@@ -211,17 +220,15 @@ form.addEventListener('submit', function (e) {
         .then(data => {
           localStorage.setItem(movieGenres.children[1].value, JSON.stringify(data))
           console.log(data)
+
         })
-      setTimeout(function () {
-        removeForm()
-      }, 1200)
     }
 
   }
   // Get recipe suggestion
   if (localStorage.getItem('meals')) {
     console.log(JSON.parse(localStorage.getItem('meals')))
-
+    removeForm()
   } else {
     let query = '?from=0&size=100&tags=mexican'
     fetch(tastyBaseUrl + query, tastyFetchObj)
@@ -232,6 +239,7 @@ form.addEventListener('submit', function (e) {
       .then(data => {
         localStorage.setItem('meals', JSON.stringify(data))
         console.log(data)
+        removeForm()
       })
   }
 })
