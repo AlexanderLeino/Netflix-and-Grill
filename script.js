@@ -26,7 +26,7 @@ let backBtn = document.getElementById('back-to-form')
 let randomMovie, randomRecipe
 
 let pastRecipes = []
-let netflixGenres = {
+const netflixGenres = {
   "Drama": ["11", "384", "452", "500", "794", "1989", "2748", "2757", "2893", "3916", "3947", "4282", "4425", "5012", "5051", "5572", "5763", "6206", "6763", "6889", "7687", "9299", "9873", "11075", "11729", "12994", "13158", "29809", "31901", "56169", "58677", "62116", "62140", "62235", "71591"],
   "Comedy": ["26", "869", "1009", "1402", "2030", "1747", "2700", "3300", "3903", "3996", "4058", "4426", "4906", "4922", "5286", "5610", "6102", "6197", "6626", "7120", "7539", "9229", "9302", "9702", "9736", "9942", "10256", "10778", "11039", "11559", "11755", "17648", "31694", "43040", "56174"],
   "Science Fiction": ["1492", "1568", "3327", "4734", "6000", "6926", "75448", "90166", "108533", "852491", "1433679", "1626246"],
@@ -49,8 +49,8 @@ let netflixGenres = {
 
 
 //<---Replace Intro with Section--->
-var intro = document.getElementById('intro')
-var child = document.getElementById('child')
+let intro = document.getElementById('intro')
+let child = document.getElementById('child')
 intro.addEventListener('animationend', function () {
   setTimeout(function () {
     child.style.removeProperty('animation')
@@ -112,7 +112,6 @@ function removeSection() {
   section.addEventListener('animationend', showForm)
 
 }
-
 function showForm() {
   section.classList.add('hidden')
   form.classList.remove('hidden')
@@ -120,13 +119,11 @@ function showForm() {
   letRollBtn.classList.add('hidden')
   showSubmitBtn()
 }
-
 function showSubmitBtn() {
   let text = 'Show Me'
   submitBtn.textContent = text
   submitBtn.setAttribute('class', 'animate__animated bg-red-500 hover:bg-red-700 text-white font-bold my-3 p-3 shadow-inner')
 }
-
 function getSelectedIndex() {
   if (this.selectedIndex === 0) {
     this.classList.add('text-gray-300', 'text-sm', 'border-green-500')
@@ -157,17 +154,9 @@ function removeForm() {
   form.addEventListener('animationend', showResult)
 }
 function showResult() {
-
-
   form.classList.add('hidden')
   resultBackground.classList.remove('hidden')
   resultBackground.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slower')
-  resultBackground.addEventListener('animationend', function () {
-    movieContainer.classList.remove('hidden')
-    foodContainer.classList.remove('hidden')
-    movieContainer.classList.add('animate__animated', 'animate__fadeInDown', 'animate__slower')
-    foodContainer.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slower')
-  })
 }
 
 
@@ -190,6 +179,7 @@ function checkRequired(selectArr) {
   })
   return validForm
 }
+
 
 // Show Error Message
 function showErrorMessage(e, message) {
@@ -227,6 +217,7 @@ function createMovieCard(movie) {
   movieContainer.appendChild(synopsisEl)
 }
 
+// Create recipe card
 function createRecipeCard(recipe) {
   console.log(recipe)
   let foodImgEl = document.createElement('img')
