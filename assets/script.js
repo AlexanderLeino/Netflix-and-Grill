@@ -44,6 +44,26 @@ let netflixGenres = {
   "Documentary/movies": ["180", "920", "1096", "2595", "2760", "3179", "3215", "3652", "3675", "3682", "4006", "4649", "4720", "5161", "5349", "6839", "7018", "8673", "9875", "10005", "15456", "17672", "25485", "28269", "48768", "49110", "56178", "58710", "63286", "71590", "90361", "852494", "1515639", "1650093", "2243108"]
 }
 
+
+
+//<---Replace Intro with Section--->
+var intro = document.getElementById('intro')
+var child = document.getElementById('child')
+intro.addEventListener('animationend', function () {
+  setTimeout(function () {
+    child.style.removeProperty('animation')
+
+    child.classList.add('animate__animated', 'animate__fadeOutUp', 'animate__slower')
+    child.addEventListener('animationend', function () {
+      intro.classList.add('hidden')
+      container.classList.remove('hidden')
+    })
+
+  }, 1000)
+  // var container= document.getElementById('container')
+})
+
+
 // Tracks API calls from Rapid APIs
 function trackAPICalls(response) {
   console.log(response.headers.get("x-ratelimit-requests-remaining"))

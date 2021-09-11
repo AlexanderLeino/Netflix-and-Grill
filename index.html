@@ -13,13 +13,18 @@
     integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!----style css-->
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="style.css">
 
 
 </head>
 
 <body>
-  <div class="container my-3 px-4">
+  <div id="intro" class="box">
+    <div class="parent">
+      <div class="child" id="child" style="animation: intro 1s forwards;">Netflix and Grill</div>
+    </div>
+  </div>
+  <div id="container" class=" hidden container my-3 px-4">
     <header class="animate__animated animate__slideInDown text-center bg-red-600 text-white text-5xl p-5">
       <h1 class="display-4">Netflix and Grill</h1>
     </header>
@@ -127,8 +132,8 @@
           <div class="flex">
             <button
               class="flex-1 flex justify-start text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2">Check</button>
-            <button 
-              class="flex-1 flex justify-end text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="back-to-form">Back</button>
+            <button class="flex-1 flex justify-end text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2"
+              id="back-to-form">Back</button>
           </div>
         </div>
       </div>
@@ -139,7 +144,7 @@
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- <div class="animate__animated animate__lightSpeedInRight">Test</div> -->
   <script src="keys.js"></script>
   <script src="assets/script.js"></script>
 </body>
