@@ -23,6 +23,7 @@ let pairsWellWith = document.getElementById('pairs-well-with')
 let foodContainer = document.getElementById('food-background')
 let resultBackground = document.getElementById('result-background')
 let backBtn = document.getElementById('back-to-form')
+let randomMovie
 
 let pastRecipes = []
 let netflixGenres = {
@@ -75,12 +76,10 @@ class movieSuggestion {
     this.title = title
     this.description = description
     this.rating = rating
-    this.runtime = runtime
+    this.runtime = runtime / 60
     this.isTop250 = isTop250
+
     this.posterImg = posterImg
-  }
-  createMovieCard() {
-    movieContainer
   }
 }
 
@@ -205,13 +204,32 @@ function showSuccess(e) {
   e.classList.add('text-black', 'border-green-500', 'border-solid', 'border-2', 'p-2')
 }
 
+// Create movie card
+function createMovieCard(movie) {
+  console.log(movie)
+
+  let posterImageEl = document.createElement('img')
+  posterImageEl.setAttribute('src', movie.posterImg)
+  movieContainer.appendChild(posterImageEl)
+
+  let titleEl = document.createElement('h2')
+  titleEl.innerHTML = movie.title
+  movieContainer.appendChild(titleEl)
+
+  let synopsisEl = document.createElement('p')
+  synopsisEl.innerHTML = movie.description
+  movieContainer.appendChild(synopsisEl)
+}
+
+
 // Creating form input selections
 generateSelectOptions()
 
 // Event listener for first button
 letRollBtn.addEventListener('click', removeSection)
 
-
+// Back button event listener
+backBtn.addEventListener('click', showForm)
 
 // Make api request when user submits their form
 form.addEventListener('submit', function (e) {
@@ -230,7 +248,8 @@ form.addEventListener('submit', function (e) {
     let query = "?genrelist=" + genreArray + "&audiosubtitle_andor=and&countrylist=46&audio=english&country_andorunique=country&type=movie&start_rating=6"
     if (localStorage.getItem(movieGenres.children[1].value)) {
       let x = JSON.parse(localStorage.getItem(movieGenres.children[1].value))
-      console.log(x)
+      randomMovie = x['results'][Math.floor(Math.random() * x['results'].length)]
+      createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
     } else {
       fetch(movieBaseUrl + query, movieFetchObj)
         .then(response => {
@@ -240,26 +259,27 @@ form.addEventListener('submit', function (e) {
         .then(data => {
           localStorage.setItem(movieGenres.children[1].value, JSON.stringify(data))
           console.log(data)
+          randomMovie = data['results'][Math.floor(Math.random() * data['results'].length)]
+          createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
 
         })
     }
-
-  }
-  // Get recipe suggestion
-  if (localStorage.getItem('meals')) {
-    console.log(JSON.parse(localStorage.getItem('meals')))
-    removeForm()
-  } else {
-    let query = '?from=0&size=100&tags=mexican'
-    fetch(tastyBaseUrl + query, tastyFetchObj)
-      .then(response => {
-        trackAPICalls(response)
-        return response.json()
-      })
-      .then(data => {
-        localStorage.setItem('meals', JSON.stringify(data))
-        console.log(data)
-        removeForm()
-      })
+    // Get recipe suggestion
+    if (localStorage.getItem('meals')) {
+      console.log(JSON.parse(localStorage.getItem('meals')))
+      removeForm()
+    } else {
+      let query = '?from=0&size=100&tags=mexican'
+      fetch(tastyBaseUrl + query, tastyFetchObj)
+        .then(response => {
+          trackAPICalls(response)
+          return response.json()
+        })
+        .then(data => {
+          localStorage.setItem('meals', JSON.stringify(data))
+          console.log(data)
+          removeForm()
+        })
+    }
   }
 })
