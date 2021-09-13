@@ -78,7 +78,6 @@ class movieSuggestion {
     this.rating = rating
     this.runtime = runtime / 60
     this.isTop250 = isTop250
-
     this.posterImg = posterImg
   }
 }
@@ -180,18 +179,19 @@ function showResult() {
 function createMovieCard(movie) {
   console.log(movie)
   currentMovie = movie
-  let posterImageEl = document.createElement('img')
-
   try {
+    let posterImageEl = document.createElement('img')
     posterImageEl.setAttribute('src', movie.posterImg)
     loaderIcons[0].classList.toggle('hidden')
     posterImageEl.classList.add('m-auto', 'rounded-lg')
-
+    movieContainer.appendChild(posterImageEl)
   } catch (err) {
     console.error(err)
-    posterImageEl.innerHTML = 'Sorry, couldn\'t find the poster of the movie.'
+    let errorEl = document.createElement('div')
+    errorEl.innerHTML = 'Sorry, couldn\'t find the poster of the movie.'
+    errorEl.classList.add('text-red')
+    movieContainer.appendChild(errorEl)
   }
-  movieContainer.appendChild(posterImageEl)
 
 
   let movieTitleEl = document.createElement('h2')
@@ -270,26 +270,39 @@ function showSuccess(e) {
 
 
 function getRecipeSuggestion() {
-  // Get recipe suggestion
-  let foodQuery = '/randomselection.php'
-  // if (kidFriendly.children[1].value === 'Yes') {
-  //   foodQuery += 'kid_friendly'
-  // }
-  // if (peopleCount.children[1].value !== '0-2') {
-  //   foodQuery += 'big_batch'
-  // }
-  fetch(mealDbUrl + foodQuery)
-    .then(response => {
-      trackAPICalls(response)
-      console.log(response)
-      return response.json()
-    })
-    .then(data => {
-      console.log(data)
-      localStorage.setItem('meals', JSON.stringify(data))
-      randomRecipe = data['meals'][Math.floor(Math.random() * data['meals'].length)]
-      createRecipeCard(new recipeSuggestion(randomRecipe.strMeal, randomRecipe.strMealThumb, '0', randomRecipe.strSource, randomRecipe.strYoutube))
-    })
+  let foodQuery
+  if (kidFriendly.children[1].value === 'Yes') {
+    foodQuery = '?from=0&size=100&tags=kid_friendly'
+    console.log('yes')
+    fetch(tastyBaseUrl + foodQuery, tastyFetchObj)
+      .then(response => {
+        trackAPICalls(response)
+        return response.json()
+      })
+      .then(data => {
+        console.log(data)
+        localStorage.setItem('meals', JSON.stringify(data))
+        randomRecipe = data['results'][Math.floor(Math.random() * data['results'].length)]
+        createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, '', '#', randomRecipe.renditions[0].url))
+      })
+  } else {
+    // Get recipe suggestion
+    foodQuery = '/randomselection.php'
+    fetch(mealDbUrl + foodQuery)
+      .then(response => {
+        trackAPICalls(response)
+        console.log(response)
+        return response.json()
+      })
+      .then(data => {
+        console.log(data)
+        localStorage.setItem('meals', JSON.stringify(data))
+        randomRecipe = data['meals'][Math.floor(Math.random() * data['meals'].length)]
+        createRecipeCard(new recipeSuggestion(randomRecipe.strMeal, randomRecipe.strMealThumb, '0', randomRecipe.strSource, randomRecipe.strYoutube))
+      })
+
+  }
+  foodQuery = ''
   removeForm()
 }
 
@@ -321,7 +334,7 @@ function getMovieSuggestion() {
 
 function saveSuggestion(savedMovie, savedRecipe) {
   let savedSuggestionBtn = document.createElement('button')
-  
+
   let saved
   savedSuggestions.push({ movie: savedMovie, recipe: savedRecipe })
   savedSuggestionBtn.innerText = savedMovie.title + ' and ' + savedRecipe.name
