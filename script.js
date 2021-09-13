@@ -142,6 +142,8 @@ function generateSelectOptions() {
   let selectChange = document.getElementsByClassName('select-change')
   for (let i = 0; i < selectChange.length; i++) {
     selectChange[i].classList.add('mt-2', 'mb-3', 'text-sm', 'text-gray-300', 'p-2')
+    selectChange[i].classList.remove('border-green-500')
+
     selectChange[i].addEventListener('change', function (event) {
       event.target.classList.remove('border-red-500')
       getSelectedIndex(event.target)
@@ -394,6 +396,8 @@ backBtn.addEventListener('click', function (e) {
   resultBackground.classList.add('hidden')
   form.classList.remove('hidden', 'animate__bounceOutLeft', 'animate__faster')
   form.classList.add('animate__animated', 'animate__bounceInRight')
+  generateSelectOptions()
+
 })
 
 // 
