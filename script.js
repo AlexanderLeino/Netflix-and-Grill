@@ -158,14 +158,12 @@ function removeForm() {
   // form.classList.add('animate__animated','animate__bounce','border-green-500')
   form.classList.remove('animate__animated', 'animate__bounceInRight')
   form.classList.add('animate__animated', 'animate__bounceOutLeft', 'animate__faster')
-  form.addEventListener('animationend', function() {
-    form.classList.add('hidden')
-    showResult()
-  })
+  form.addEventListener('animationend', showResult)
 }
 function showResult() {
-
-
+  
+  form.removeEventListener('animationend', showResult)
+  form.classList.add('hidden')
   resultBackground.classList.remove('hidden')
   pairsWellWith.classList.remove('hidden')
   resultBackground.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slow')
@@ -175,10 +173,6 @@ function showResult() {
     movieContainer.classList.add('animate__animated', 'animate__fadeInDown', 'animate__slower')
     foodContainer.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slower')
   })
-}
-
-function hideResults() {
-
 }
 
 
