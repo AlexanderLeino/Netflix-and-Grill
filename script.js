@@ -33,6 +33,9 @@ let child = document.getElementById('child')
 let saveBtn = document.getElementById('save-button')
 let newSuggestionBtn = document.getElementById('generate-button')
 let loaderIcons = document.getElementsByClassName('loader')
+let newMovieBtn = document.getElementById('new-movie')
+let newRecipeBtn = document.getElementById('new-recipe')
+
 let savedSuggestions = []
 let savedCount = 0
 
@@ -424,5 +427,21 @@ submitBtn.addEventListener('click', function (e) {
       getRecipeSuggestion()
     }, 1500)
   }
+})
+
+newMovieBtn.addEventListener('click', function(e) {
+  e.preventDefault()
+  console.log('movie')
+  clearResults()
+  getMovieSuggestion();
+  createRecipeCard(currentRecipe)
+})
+
+newRecipeBtn.addEventListener('click', function(e) {
+  e.preventDefault()
+  console.log('recipe')
+  clearResults()
+  getRecipeSuggestion();
+  createMovieCard(currentMovie)
 })
 

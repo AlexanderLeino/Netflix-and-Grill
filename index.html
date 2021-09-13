@@ -112,22 +112,25 @@
 
     <!-- Meal information -->
     <div id="result-background" class="hidden flex justify-between bg-black my-4 p-5">
-      <div id="movie-background" class="invisible flex-1 justify-center bg-black p-5 text-white">
+      <div id="movie-background" class="invisible justify-center bg-black p-5 text-white">
         <div class="loader"></div>
       </div>
-      <div id="pairs-well-with" class="hidden flex-1 h-16 justify-center text-white text-xl text-center justify-center my-10">
+      <div id="pairs-well-with" class="hidden  flex-wrap justify-center text-white text-xl text-center justify-center my-10">
         <div class="block">
           <h3 class="text-base">pairs well with</h3>
-          <div class="flex">
+          <div class="flex justify-center flex-wrap">
             <button
-              class="flex-1 flex justify-center items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="save-button">Save</button>
-            <button class="flex-1 flex justify-center items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2"
-              id="back-to-form">Back</button>
-              <button class="flex-1 flex justify-center items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="generate-button">Generate New Suggestions</button>
+            class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="save-button">Save</button>
+            <button class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2"
+            id="back-to-form">Back</button>
+            <button class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="generate-button">Generate New Suggestions</button>
+            <button class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="new-recipe">Generate New Recipe</button>
+            <button class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="new-movie">Generate New Movie</button>
           </div>
         </div>
       </div>
-      <div id="food-background" class="invisible flex-1 justify-center bg-black p-5 text-white">
+
+      <div id="food-background" class="invisible justify-center bg-black p-5 text-white">
         <div class="loader"></div>
       </div>
 
