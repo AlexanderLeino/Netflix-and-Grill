@@ -326,3 +326,18 @@ form.addEventListener('submit', function (e) {
     }, 1500)
   }
 })
+
+function backToForm(){
+  resultBackground.classList.remove('animate__animated', 'animate__fadeInUp', 'animate__slow')
+  // resultBackground.classList.add('animate__animated','animate__rotateOut')
+  resultBackground.classList.add('hidden')
+  // movieContainer.classList.add('hidden')
+  // pairsWellWith.classList.add('hidden')
+  // foodContainer.classList.add('hidden') 
+  // resultBackground.addEventListener('animationend',function () {
+  // form.classList.remove('hidden')
+  // form.classList.add('animate__animated', 'animate__bounceInRight')
+  }
+   
+
+backBtn.addEventListener('click',backToForm)
