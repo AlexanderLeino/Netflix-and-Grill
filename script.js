@@ -33,10 +33,12 @@ let child = document.getElementById('child')
 let saveBtn = document.getElementById('save-button')
 let newSuggestionBtn = document.getElementById('generate-button')
 let loaderIcons = document.getElementsByClassName('loader')
+let savedSuggestions = []
+let savedCount = 0
 
 let randomMovie, randomRecipe
+let currentMovie, currentRecipe
 
-let pastRecipes = []
 const netflixGenres = {
   "Drama": ["11", "384", "452", "500", "794", "1989", "2748", "2757", "2893", "3916", "3947", "4282", "4425", "5012", "5051", "5572", "5763", "6206", "6763", "6889", "7687", "9299", "9873", "11075", "11729", "12994", "13158", "29809", "31901", "56169", "58677", "62116", "62140", "62235", "71591"],
   "Comedy": ["26", "869", "1009", "1402", "2030", "1747", "2700", "3300", "3903", "3996", "4058", "4426", "4906", "4922", "5286", "5610", "6102", "6197", "6626", "7120", "7539", "9229", "9302", "9702", "9736", "9942", "10256", "10778", "11039", "11559", "11755", "17648", "31694", "43040", "56174"],
@@ -59,8 +61,6 @@ const netflixGenres = {
 
 /* 
 
-TODO: Create Generate Again function
-TODO: Filter out recipes/movies with no images
 TODO: Add modal with recipe information and links
 
 */
@@ -166,15 +166,15 @@ function hideResults() {
 
 // Create movie card
 function createMovieCard(movie) {
-  console.log(movie, movie.posterImg)
-
+  console.log(movie)
+  currentMovie = movie
   let posterImageEl = document.createElement('img')
 
   try {
     posterImageEl.setAttribute('src', movie.posterImg)
     loaderIcons[0].classList.toggle('hidden')
     posterImageEl.classList.add('m-auto', 'rounded-lg')
-    
+
   } catch (err) {
     console.error(err)
     posterImageEl.innerHTML = 'Sorry, couldn\'t find the poster of the movie.'
@@ -195,7 +195,7 @@ function createMovieCard(movie) {
 // Create recipe card
 function createRecipeCard(recipe) {
   console.log(recipe)
-
+  currentRecipe = recipe
   let foodImgEl = document.createElement('img')
   foodImgEl.setAttribute('src', recipe.image)
   loaderIcons[1].classList.toggle('hidden')
@@ -306,6 +306,29 @@ function getMovieSuggestion() {
   }
 }
 
+function saveSuggestion(savedMovie, savedRecipe) {
+  let savedSuggestionBtn = document.createElement('button')
+  
+  let saved
+  savedSuggestions.push({ movie: savedMovie, recipe: savedRecipe })
+  savedSuggestionBtn.innerText = savedMovie.title + ' and ' + savedRecipe.name
+  savedSuggestionBtn.classList.add('bg-gray-500', 'hover:bg-gray-700', 'text-black', 'p-2', 'm-2')
+  savedSuggestionBtn.id = savedCount
+  localStorage.setItem(savedCount, JSON.stringify({ movie: savedMovie, recipe: savedRecipe }))
+
+  savedSuggestionBtn.addEventListener('click', e => {
+    e.preventDefault()
+    clearResults()
+    saved = JSON.parse(localStorage.getItem(e.target.id))
+    console.log(saved.movie, saved.recipe)
+    createMovieCard(saved.movie)
+    createRecipeCard(saved.recipe)
+
+  })
+  pairsWellWith.appendChild(savedSuggestionBtn)
+  savedCount++
+}
+
 function clearResults() {
   movieContainer.innerHTML = '<div class="loader"></div>'
   foodContainer.innerHTML = '<div class="loader"></div>'
@@ -339,7 +362,7 @@ backBtn.addEventListener('click', function (e) {
   for (let i = 0; i < userSelections.length; i++) {
     userSelections[i].value = userSelections[i].children[0].value
   }
-
+  form.removeEventListener('animationend', showResult)
   clearResults()
   resultBackground.classList.remove('animate__fadeInUp', 'animate__slower')
   resultBackground.classList.add('hidden')
@@ -350,6 +373,9 @@ backBtn.addEventListener('click', function (e) {
 // 
 saveBtn.addEventListener('click', function (e) {
   e.preventDefault();
+  saveSuggestion(currentMovie, currentRecipe)
+
+
 })
 
 // 
