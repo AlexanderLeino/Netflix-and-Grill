@@ -46,7 +46,7 @@
 
                 <!-- Chef image -->
                 <div id="chef" class="flex justify-end">
-                    <img class="animate__animated animate__bounceInUp" src="assets/images/Nac-chef.png">
+                    <img class="animate__animated animate__bounceInUp" src="assets/images/logo.png">
                 </div>
 
                 <!--  Get to know you form -->
@@ -93,17 +93,7 @@
                                 <option class="text-black">6-8</option>
                             </select>
                         </div>
-                        <div id="tastes" class="text-xl">
-                            <h4>What tastes are you craving now?</h4>
-                            <select class="select-change">
-                                <option>let us know</option>
-                                <option class="text-black">Sweet</option>
-                                <option class="text-black">Sour</option>
-                                <option class="text-black">Salty</option>
-                                <option class="text-black">Bitter</option>
-                                <option class="text-black">Umami</option>
-                            </select>
-                        </div>
+                       
 
                     </label>
                     <div class="flex justify-end">
@@ -121,24 +111,30 @@
                 </div>
 
     <!-- Meal information -->
-    <div id="result-background" class="hidden flex justify-between  bg-black my-4 p-5 ">
-        <div id="movie-background" class="invisible flex-1 justify-center bg-black p-5 text-white"></div>
-        <div id="pairs-well-with" class=" hidden flex-1 h-16 justify-center text-white text-xl text-center justify-center my-10 ">
-            <div class="block">
-                <h3 class="text-xl">pairs well with</h3>
-            </div>
-            <div class="flex">
-                <button class="flex-1 justify-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2">Check</button>
-                <button class="flex-1 flex justify-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="back-to-form">Back</button>
-            </div>
+    <div id="result-background" class="hidden flex justify-between bg-black my-4 p-5">
+      <div id="movie-background" class="invisible flex-1 justify-center bg-black p-5 text-white">
+        <div class="loader"></div>
+      </div>
+      <div id="pairs-well-with" class="hidden flex-1 h-16 justify-center text-white text-xl text-center justify-center my-10">
+        <div class="block">
+          <h3 class="text-base">pairs well with</h3>
+          <div class="flex">
+            <button
+              class="flex-1 flex justify-center items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="save-button">Check</button>
+            <button class="flex-1 flex justify-center items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2"
+              id="back-to-form">Back</button>
+              <button class="flex-1 flex justify-center items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="generate-button">Generate New Suggestions</button>
+          </div>
         </div>
-        <div id="food-background" class="invisible flex-1 justify-center bg-black p-5 text-white"></div>
+      </div>
+      <div id="food-background" class="invisible flex-1 justify-center bg-black p-5 text-white">
+        <div class="loader"></div>
+      </div>
 
     </div>
-
-            <!-- <div class="animate__animated animate__lightSpeedInRight">Test</div> -->
-            <script src="keys.js"></script>
-            <script src="script.js"></script>
+  </div>
+  <script src="keys.js"></script>
+  <script src="script.js"></script>
 </body>
 
 </html>

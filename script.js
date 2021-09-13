@@ -6,6 +6,7 @@ let movieFetchObj = {
     "x-rapidapi-key": rapidAPIKey
   }
 }
+let mealDbUrl = 'https://www.themealdb.com/api/json/v2/' + mealDbKey
 let tastyBaseUrl = "https://tasty.p.rapidapi.com/recipes/list"
 let tastyFetchObj = {
   "method": "GET",
@@ -23,10 +24,22 @@ let pairsWellWith = document.getElementById('pairs-well-with')
 let foodContainer = document.getElementById('food-background')
 let resultBackground = document.getElementById('result-background')
 let backBtn = document.getElementById('back-to-form')
-let randomMovie, randomRecipe
+let kidFriendly = document.getElementById('kid-friendly')
+let movieGenres = document.getElementById('genres-movie')
+let peopleCount = document.getElementById('people-count')
+let userSelections = [kidFriendly.children[1], movieGenres.children[1], peopleCount.children[1]]
+let intro = document.getElementById('intro')
+let child = document.getElementById('child')
+let saveBtn = document.getElementById('save-button')
+let newSuggestionBtn = document.getElementById('generate-button')
+let loaderIcons = document.getElementsByClassName('loader')
+let savedSuggestions = []
+let savedCount = 0
 
-let pastRecipes = []
-let netflixGenres = {
+let randomMovie, randomRecipe
+let currentMovie, currentRecipe
+
+const netflixGenres = {
   "Drama": ["11", "384", "452", "500", "794", "1989", "2748", "2757", "2893", "3916", "3947", "4282", "4425", "5012", "5051", "5572", "5763", "6206", "6763", "6889", "7687", "9299", "9873", "11075", "11729", "12994", "13158", "29809", "31901", "56169", "58677", "62116", "62140", "62235", "71591"],
   "Comedy": ["26", "869", "1009", "1402", "2030", "1747", "2700", "3300", "3903", "3996", "4058", "4426", "4906", "4922", "5286", "5610", "6102", "6197", "6626", "7120", "7539", "9229", "9302", "9702", "9736", "9942", "10256", "10778", "11039", "11559", "11755", "17648", "31694", "43040", "56174"],
   "Science Fiction": ["1492", "1568", "3327", "4734", "6000", "6926", "75448", "90166", "108533", "852491", "1433679", "1626246"],
@@ -46,25 +59,11 @@ let netflixGenres = {
   "Documentary/movies": ["180", "920", "1096", "2595", "2760", "3179", "3215", "3652", "3675", "3682", "4006", "4649", "4720", "5161", "5349", "6839", "7018", "8673", "9875", "10005", "15456", "17672", "25485", "28269", "48768", "49110", "56178", "58710", "63286", "71590", "90361", "852494", "1515639", "1650093", "2243108"]
 }
 
+/* 
 
+TODO: Add modal with recipe information and links
 
-//<---Replace Intro with Section--->
-var intro = document.getElementById('intro')
-var child = document.getElementById('child')
-intro.addEventListener('animationend', function () {
-  setTimeout(function () {
-    child.style.removeProperty('animation')
-
-    child.classList.add('animate__animated', 'animate__fadeOutUp', 'animate__slower')
-    child.addEventListener('animationend', function () {
-      intro.classList.add('hidden')
-      container.classList.remove('hidden')
-    })
-
-  }, 1000)
-  // var container= document.getElementById('container')
-})
-
+*/
 
 // Tracks API calls from Rapid APIs
 function trackAPICalls(response) {
@@ -112,7 +111,6 @@ function removeSection() {
   section.addEventListener('animationend', showForm)
 
 }
-
 function showForm() {
   section.classList.add('hidden')
   form.classList.remove('hidden')
@@ -120,7 +118,6 @@ function showForm() {
   letRollBtn.classList.add('hidden')
   showSubmitBtn()
 }
-
 function showSubmitBtn() {
   let text = 'Show Me'
   submitBtn.textContent = text
@@ -180,6 +177,66 @@ function showResult() {
   })
 }
 
+function hideResults() {
+
+}
+
+
+// Create movie card
+function createMovieCard(movie) {
+  console.log(movie)
+  currentMovie = movie
+  let posterImageEl = document.createElement('img')
+
+  try {
+    posterImageEl.setAttribute('src', movie.posterImg)
+    loaderIcons[0].classList.toggle('hidden')
+    posterImageEl.classList.add('m-auto', 'rounded-lg')
+
+  } catch (err) {
+    console.error(err)
+    posterImageEl.innerHTML = 'Sorry, couldn\'t find the poster of the movie.'
+  }
+  movieContainer.appendChild(posterImageEl)
+
+
+  let movieTitleEl = document.createElement('h2')
+  movieTitleEl.innerHTML = movie.title
+  movieTitleEl.classList.add('text-center')
+  movieContainer.appendChild(movieTitleEl)
+
+  let synopsisEl = document.createElement('p')
+  synopsisEl.innerHTML = movie.description
+  movieContainer.appendChild(synopsisEl)
+}
+
+// Create recipe card
+function createRecipeCard(recipe) {
+  console.log(recipe)
+  currentRecipe = recipe
+  let foodImgEl = document.createElement('img')
+  foodImgEl.setAttribute('src', recipe.image)
+  loaderIcons[1].classList.toggle('hidden')
+  foodImgEl.classList.add('m-auto', 'rounded-lg')
+  foodContainer.appendChild(foodImgEl)
+
+  let foodTitleEl = document.createElement('h2')
+  foodTitleEl.innerHTML = recipe.name
+  foodTitleEl.classList.add('text-center')
+  foodContainer.appendChild(foodTitleEl)
+
+  if (recipe.link !== null) {
+    let foodLink = document.createElement('a')
+    foodLink.href = recipe.link
+    foodLink.target = '_blank'
+    foodLink.innerText = 'Click here for a video\n'
+    foodContainer.appendChild(foodLink)
+    let foodSource = document.createElement('a')
+    foodSource.href = recipe.instructions
+    foodSource.innerText = 'Click here for the recipe\n'
+    foodContainer.appendChild(foodSource)
+  }
+}
 
 // Check if user selected all required criteria
 function checkRequired(selectArr) {
@@ -190,7 +247,6 @@ function checkRequired(selectArr) {
     console.log(select)
     if (select.selectedIndex === 0) {
       showErrorMessage(select, 'All fields are required')
-      // addSelectClasses(select)
       getSelectedIndex(select)
       validForm = false
     } else {
@@ -201,6 +257,7 @@ function checkRequired(selectArr) {
   })
   return validForm
 }
+
 
 // Show Error Message
 function showErrorMessage(e, message) {
@@ -217,112 +274,148 @@ function showSuccess(e) {
   e.classList.add('text-black', 'border-green-500', 'border-solid', 'border-2', 'p-2','animate__animated', 'animate__bounce')
 }
 
-// Create movie card
-function createMovieCard(movie) {
-  console.log(movie)
-  if (movie.poster === 'N/A') {
-    posterImageEl.innerHTML = 'Sorry, couldn\'t find the poster of the movie.'
+
+function getRecipeSuggestion() {
+  // Get recipe suggestion
+  let foodQuery = '/randomselection.php'
+  // if (kidFriendly.children[1].value === 'Yes') {
+  //   foodQuery += 'kid_friendly'
+  // }
+  // if (peopleCount.children[1].value !== '0-2') {
+  //   foodQuery += 'big_batch'
+  // }
+  fetch(mealDbUrl + foodQuery)
+    .then(response => {
+      trackAPICalls(response)
+      console.log(response)
+      return response.json()
+    })
+    .then(data => {
+      console.log(data)
+      localStorage.setItem('meals', JSON.stringify(data))
+      randomRecipe = data['meals'][Math.floor(Math.random() * data['meals'].length)]
+      createRecipeCard(new recipeSuggestion(randomRecipe.strMeal, randomRecipe.strMealThumb, '0', randomRecipe.strSource, randomRecipe.strYoutube))
+    })
+  removeForm()
+}
+
+
+function getMovieSuggestion() {
+  // Get movie suggestion
+  let chosenGenre = netflixGenres[movieGenres.children[1].value]
+  let genreArray = chosenGenre.join(',')
+  let movieQuery = "?genrelist=" + genreArray + "&audiosubtitle_andor=and&countrylist=46&audio=english&country_andorunique=country&type=movie&start_rating=6"
+  if (localStorage.getItem(movieGenres.children[1].value)) {
+    let x = JSON.parse(localStorage.getItem(movieGenres.children[1].value))
+    randomMovie = x['results'][Math.floor(Math.random() * x['results'].length)]
+    createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
   } else {
-    let posterImageEl = document.createElement('img')
-    posterImageEl.setAttribute('src', movie.posterImg)
-    movieContainer.appendChild(posterImageEl)
-  }
+    fetch(movieBaseUrl + movieQuery, movieFetchObj)
+      .then(response => {
+        trackAPICalls(response)
+        return response.json()
+      })
+      .then(data => {
+        localStorage.setItem(movieGenres.children[1].value, JSON.stringify(data))
+        console.log(data)
+        randomMovie = data['results'][Math.floor(Math.random() * data['results'].length)]
+        createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
 
-  let movieTitleEl = document.createElement('h2')
-  movieTitleEl.innerHTML = movie.title
-  movieTitleEl.classList.add('text-2x1')
-  movieContainer.appendChild(movieTitleEl)
-
-  let synopsisEl = document.createElement('p')
-  synopsisEl.innerHTML = movie.description
-  movieContainer.appendChild(synopsisEl)
-}
-
-function createRecipeCard(recipe) {
-  console.log(recipe)
-  let foodImgEl = document.createElement('img')
-  foodImgEl.setAttribute('src', recipe.image)
-  foodContainer.appendChild(foodImgEl)
-
-  let foodTitleEl = document.createElement('h2')
-  foodTitleEl.innerHTML = recipe.name
-  foodContainer.appendChild(foodTitleEl)
-
-  if (recipe.link !== null) {
-    let foodLink = document.createElement('a')
-    foodLink.href = recipe.link
-    foodLink.innerText = 'Click here for a video'
-    foodContainer.appendChild(foodLink)
+      })
   }
 }
 
+function saveSuggestion(savedMovie, savedRecipe) {
+  let savedSuggestionBtn = document.createElement('button')
+  
+  let saved
+  savedSuggestions.push({ movie: savedMovie, recipe: savedRecipe })
+  savedSuggestionBtn.innerText = savedMovie.title + ' and ' + savedRecipe.name
+  savedSuggestionBtn.classList.add('bg-gray-500', 'hover:bg-gray-700', 'text-black', 'p-2', 'm-2')
+  savedSuggestionBtn.id = savedCount
+  localStorage.setItem(savedCount, JSON.stringify({ movie: savedMovie, recipe: savedRecipe }))
+
+  savedSuggestionBtn.addEventListener('click', e => {
+    e.preventDefault()
+    clearResults()
+    saved = JSON.parse(localStorage.getItem(e.target.id))
+    console.log(saved.movie, saved.recipe)
+    createMovieCard(saved.movie)
+    createRecipeCard(saved.recipe)
+
+  })
+  pairsWellWith.appendChild(savedSuggestionBtn)
+  savedCount++
+}
+
+function clearResults() {
+  movieContainer.innerHTML = '<div class="loader"></div>'
+  foodContainer.innerHTML = '<div class="loader"></div>'
+}
 
 // Creating form input selections
 generateSelectOptions()
+
+//   Replace Intro with Section 
+intro.addEventListener('animationend', function () {
+  setTimeout(function () {
+    child.style.removeProperty('animation')
+
+    child.classList.add('animate__animated', 'animate__fadeOutUp', 'animate__slower')
+    child.addEventListener('animationend', function () {
+      intro.classList.add('hidden')
+      container.classList.remove('hidden')
+    })
+
+  }, 1000)
+  // var container= document.getElementById('container')
+})
+
 
 // Event listener for first button
 letRollBtn.addEventListener('click', removeSection)
 
 // Back button event listener
-backBtn.addEventListener('click', showForm)
+backBtn.addEventListener('click', function (e) {
+  e.preventDefault()
+  for (let i = 0; i < userSelections.length; i++) {
+    userSelections[i].value = userSelections[i].children[0].value
+  }
+  form.removeEventListener('animationend', showResult)
+  clearResults()
+  resultBackground.classList.remove('animate__fadeInUp', 'animate__slower')
+  resultBackground.classList.add('hidden')
+  form.classList.remove('hidden', 'animate__bounceOutLeft', 'animate__faster')
+  form.classList.add('animate__animated', 'animate__bounceInRight')
+})
+
+// 
+saveBtn.addEventListener('click', function (e) {
+  e.preventDefault();
+  saveSuggestion(currentMovie, currentRecipe)
+
+
+})
+
+// 
+newSuggestionBtn.addEventListener('click', function (e) {
+  e.preventDefault();
+  clearResults();
+  getRecipeSuggestion();
+  getMovieSuggestion();
+})
 
 // Make api request when user submits their form
-form.addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  let kidFriendly = document.getElementById('kid-friendly')
-  let movieGenres = document.getElementById('genres-movie')
-  let peopleCount = document.getElementById('people-count')
-  let tastes = document.getElementById('tastes')
-
-  let checkForm = checkRequired([kidFriendly, movieGenres, peopleCount,tastes])
+submitBtn.addEventListener('click', function (e) {
+  e.preventDefault()
+  let checkForm = checkRequired([kidFriendly, movieGenres, peopleCount])
   if (checkForm === false) {
     return
   } else {
-   console.log("setting timeout")
-    // Get movie suggestion
     setTimeout(function() {
-      let chosenGenre = netflixGenres[movieGenres.children[1].value]
-      let genreArray = chosenGenre.join(',')
-      let query = "?genrelist=" + genreArray + "&audiosubtitle_andor=and&countrylist=46&audio=english&country_andorunique=country&type=movie&start_rating=6"
-      if (localStorage.getItem(movieGenres.children[1].value)) {
-        let x = JSON.parse(localStorage.getItem(movieGenres.children[1].value))
-        randomMovie = x['results'][Math.floor(Math.random() * x['results'].length)]
-        createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
-      } else {
-        fetch(movieBaseUrl + query, movieFetchObj)
-          .then(response => {
-            trackAPICalls(response)
-            return response.json()
-          })
-          .then(data => {
-            localStorage.setItem(movieGenres.children[1].value, JSON.stringify(data))
-            console.log(data)
-            randomMovie = data['results'][Math.floor(Math.random() * data['results'].length)]
-            createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
-
-          })
-      }
-      // Get recipe suggestion
-      if (localStorage.getItem('meals')) {
-        let y = JSON.parse(localStorage.getItem('meals'))
-        randomRecipe = y['results'][Math.floor(Math.random() * y['results'].length)]
-        createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, randomRecipe.num_servings, randomRecipe.instructions, randomRecipe.original_video_url))
-        removeForm()
-      } else {
-        let query = '?from=0&size=100&tags=mexican'
-        fetch(tastyBaseUrl + query, tastyFetchObj)
-          .then(response => {
-            trackAPICalls(response)
-            return response.json()
-          })
-          .then(data => {
-            localStorage.setItem('meals', JSON.stringify(data))
-            randomRecipe = data['results'][Math.floor(Math.random() * data['results'].length)]
-            createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, randomRecipe.num_servings, randomRecipe.instructions, randomRecipe.original_video_url))
-            removeForm()
-          })
-      }
+      getMovieSuggestion()
+      getRecipeSuggestion()
     }, 1500)
   }
 })
+
