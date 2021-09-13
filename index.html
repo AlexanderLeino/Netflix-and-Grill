@@ -122,28 +122,28 @@
     </div>
 
     <!-- Meal information -->
-    <div id="result-background" class="hidden flex bg-black my-4 p-5">
-      <div id="movie-background" class=" flex-grow bg-white p-5 text-black">
+    <div id="result-background" class="hidden flex bg-black my-4 p-5 justify-between">
+      <div id="movie-background" class="flex-col bg-white p-5 text-black justify-center">
+        <div class="loader"></div>
       </div>
-      <div id="pairs-well-with"
-        class="flex-grow-0 h-16 justify-center text-white text-xl text-center justify-center my-10 ">
+      <div id="pairs-well-with" class="flex-grow-0 h-16 justify-center text-white text-xl text-center justify-center my-10 ">
         <div class="block">
           <h3 class="text-base">pairs well with</h3>
           <div class="flex">
             <button
-              class="flex-1 flex justify-start text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2">Check</button>
-            <button class="flex-1 flex justify-end text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2"
+              class="flex-1 flex justify-center items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="save-button">Check</button>
+            <button class="flex-1 flex justify-center items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2"
               id="back-to-form">Back</button>
+              <button class="flex-1 flex justify-center items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="generate-button">Generate New Suggestions</button>
           </div>
         </div>
       </div>
-      <div id="food-background" class="flex-grow bg-white p-5 text-black">
+      <div id="food-background" class="flex-col bg-white p-5 text-black justify-center">
+        <div class="loader"></div>
       </div>
 
     </div>
   </div>
-
-  <!-- <div class="animate__animated animate__lightSpeedInRight">Test</div> -->
   <script src="keys.js"></script>
   <script src="script.js"></script>
 </body>
