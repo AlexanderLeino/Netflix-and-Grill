@@ -23,6 +23,16 @@ let pairsWellWith = document.getElementById('pairs-well-with')
 let foodContainer = document.getElementById('food-background')
 let resultBackground = document.getElementById('result-background')
 let backBtn = document.getElementById('back-to-form')
+let kidFriendly = document.getElementById('kid-friendly')
+let kidFriendlySelection = kidFriendly.children[1].value
+let movieGenres = document.getElementById('genres-movie')
+let movieGenresSelection = movieGenres.children[1].value
+let peopleCount = document.getElementById('people-count')
+let peopleCountSelection = peopleCount.children[1].value
+let userSelections = [kidFriendly.children[1], movieGenres.children[1], peopleCount.children[1]]
+let intro = document.getElementById('intro')
+let child = document.getElementById('child')
+
 let randomMovie, randomRecipe
 
 let pastRecipes = []
@@ -46,11 +56,16 @@ const netflixGenres = {
   "Documentary/movies": ["180", "920", "1096", "2595", "2760", "3179", "3215", "3652", "3675", "3682", "4006", "4649", "4720", "5161", "5349", "6839", "7018", "8673", "9875", "10005", "15456", "17672", "25485", "28269", "48768", "49110", "56178", "58710", "63286", "71590", "90361", "852494", "1515639", "1650093", "2243108"]
 }
 
+/* 
 
+TODO: Create Generate Again function
+TODO: Fix back button
+TODO: Filter out recipes/movies with no images
+TODO: Add modal with recipe information and links
+
+*/
 
 //<---Replace Intro with Section--->
-let intro = document.getElementById('intro')
-let child = document.getElementById('child')
 intro.addEventListener('animationend', function () {
   setTimeout(function () {
     child.style.removeProperty('animation')
@@ -154,47 +169,16 @@ function removeForm() {
   form.addEventListener('animationend', showResult)
 }
 function showResult() {
+  form.removeEventListener('animationend', showResult)
   form.classList.add('hidden')
   resultBackground.classList.remove('hidden')
   resultBackground.classList.add('animate__animated', 'animate__fadeInUp', 'animate__slower')
 }
 
-
-// Check if user selected all required criteria
-function checkRequired(selectArr) {
-  let validForm
-  selectArr.forEach(function (item) {
-    let select = item.querySelector('.select-change')
-    if (select.selectedIndex === 0) {
-      showErrorMessage(select, 'All fields are required')
-      addSelectClasses(select)
-      getSelectedIndex(select)
-      validForm = false
-
-    } else {
-      showSuccess(select)
-      validForm = true
-
-    }
-  })
-  return validForm
+function hideResults() {
+  
 }
 
-
-// Show Error Message
-function showErrorMessage(e, message) {
-  e.classList.remove('border-green-500')
-  e.classList.add('border-red-500', 'border-solid', 'border-2', 'p-2')
-  let small = document.getElementById('small')
-  small.innerText = message
-  small.classList.remove('hidden')
-  small.classList.add('text-white')
-}
-// Show Success Message
-function showSuccess(e) {
-  e.classList.remove('border-red-500')
-  e.classList.add('text-black', 'border-green-500', 'border-solid', 'border-2', 'p-2')
-}
 
 // Create movie card
 function createMovieCard(movie) {
@@ -236,6 +220,41 @@ function createRecipeCard(recipe) {
   }
 }
 
+// Check if user selected all required criteria
+function checkRequired(selectArr) {
+  let validForm
+  selectArr.forEach(function (item) {
+    let select = item.querySelector('.select-change')
+    if (select.selectedIndex === 0) {
+      showErrorMessage(select, 'All fields are required')
+      addSelectClasses(select)
+      getSelectedIndex(select)
+      validForm = false
+
+    } else {
+      showSuccess(select)
+      validForm = true
+
+    }
+  })
+  return validForm
+}
+
+
+// Show Error Message
+function showErrorMessage(e, message) {
+  e.classList.remove('border-green-500')
+  e.classList.add('border-red-500', 'border-solid', 'border-2', 'p-2')
+  let small = document.getElementById('small')
+  small.innerText = message
+  small.classList.remove('hidden')
+  small.classList.add('text-white')
+}
+// Show Success Message
+function showSuccess(e) {
+  e.classList.remove('border-red-500')
+  e.classList.add('text-black', 'border-green-500', 'border-solid', 'border-2', 'p-2')
+}
 
 // Creating form input selections
 generateSelectOptions()
@@ -244,15 +263,23 @@ generateSelectOptions()
 letRollBtn.addEventListener('click', removeSection)
 
 // Back button event listener
-backBtn.addEventListener('click', showForm)
+backBtn.addEventListener('click', function(e) {
+  e.preventDefault()
+  for (let i = 0; i < userSelections.length; i++) {
+    userSelections[i].value = userSelections[i].children[0].value 
+  }
+  movieContainer.innerHTML = ''
+  foodContainer.innerHTML = ''
+  resultBackground.classList.remove('animate__fadeInUp', 'animate__slower')
+  resultBackground.classList.add('hidden')
+  form.classList.remove('hidden', 'animate__bounceOutLeft', 'animate__faster')
+  form.classList.add('animate__animated', 'animate__bounceInRight')
+})
 
 // Make api request when user submits their form
 form.addEventListener('submit', function (e) {
   e.preventDefault();
-
-  let kidFriendly = document.getElementById('kid-friendly')
-  let movieGenres = document.getElementById('genres-movie')
-  let peopleCount = document.getElementById('people-count')
+ 
   let checkForm = checkRequired([kidFriendly, movieGenres, peopleCount])
   if (checkForm === false) {
     return
