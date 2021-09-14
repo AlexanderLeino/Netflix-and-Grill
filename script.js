@@ -33,6 +33,9 @@ let child = document.getElementById('child')
 let saveBtn = document.getElementById('save-button')
 let newSuggestionBtn = document.getElementById('generate-button')
 let loaderIcons = document.getElementsByClassName('loader')
+let newMovieBtn = document.getElementById('new-movie')
+let newRecipeBtn = document.getElementById('new-recipe')
+
 let savedSuggestions = []
 let savedCount = 0
 
@@ -273,20 +276,27 @@ function showSuccess(e) {
 
 function getRecipeSuggestion() {
   let foodQuery
+  let randomRecipe
   if (kidFriendly.children[1].value === 'Yes') {
     foodQuery = '?from=0&size=100&tags=kid_friendly'
-    console.log('yes')
-    fetch(tastyBaseUrl + foodQuery, tastyFetchObj)
-      .then(response => {
-        trackAPICalls(response)
-        return response.json()
-      })
-      .then(data => {
-        console.log(data)
-        localStorage.setItem('meals', JSON.stringify(data))
-        randomRecipe = data['results'][Math.floor(Math.random() * data['results'].length)]
-        createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, '', '#', randomRecipe.renditions[0].url))
-      })
+    if (localStorage.getItem('tastymeals')) {
+      let y = JSON.parse(localStorage.getItem('tastymeals'))
+      randomRecipe = y['results'][Math.floor(Math.random() * y['results'].length)]
+      createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, '', '#', ''))
+    } else {
+      fetch(tastyBaseUrl + foodQuery, tastyFetchObj)
+        .then(response => {
+          trackAPICalls(response)
+          return response.json()
+        })
+        .then(data => {
+          console.log(data)
+          localStorage.setItem('tastymeals', JSON.stringify(data))
+          randomRecipe = data['results'][Math.floor(Math.random() * data['results'].length)]
+          createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, '', '#', randomRecipe.renditions[0].url))
+        })
+
+    }
   } else {
     // Get recipe suggestion
     foodQuery = '/randomselection.php'
@@ -433,5 +443,21 @@ submitBtn.addEventListener('click', function (e) {
       getRecipeSuggestion()
     }, 1500)
   }
+})
+
+newMovieBtn.addEventListener('click', function(e) {
+  e.preventDefault()
+  console.log('movie')
+  clearResults()
+  getMovieSuggestion();
+  createRecipeCard(currentRecipe)
+})
+
+newRecipeBtn.addEventListener('click', function(e) {
+  e.preventDefault()
+  console.log('recipe')
+  clearResults()
+  getRecipeSuggestion();
+  createMovieCard(currentMovie)
 })
 
