@@ -1,3 +1,5 @@
+let rapidAPIKey = "0b3ba113c5msh66e12ed828c15d9p196e46jsna2205c88742e"
+let mealDbKey = '9973533'
 let movieBaseUrl = "https://unogsng.p.rapidapi.com/search"
 let movieFetchObj = {
   "method": "GET",
@@ -36,7 +38,7 @@ let loaderIcons = document.getElementsByClassName('loader')
 let newMovieBtn = document.getElementById('new-movie')
 let newRecipeBtn = document.getElementById('new-recipe')
 
-let savedSuggestions = []
+let savedSuggestions = JSON.parse(localStorage.getItem('savedSuggestions')) || []
 let savedCount = 0
 
 let randomMovie, randomRecipe
@@ -81,7 +83,9 @@ class movieSuggestion {
     this.rating = rating
     this.runtime = runtime / 60
     this.isTop250 = isTop250
-    this.posterImg = posterImg
+    if (posterImg !== null) {
+      this.posterImg = posterImg
+    }
   }
 }
 
@@ -182,22 +186,24 @@ function showResult() {
 
 // Create movie card
 function createMovieCard(movie) {
-  console.log(movie)
+  console.log(movie.posterImg)
   currentMovie = movie
-  try {
+  if (movie.posterImg !== undefined) {
     let posterImageEl = document.createElement('img')
     posterImageEl.setAttribute('src', movie.posterImg)
     loaderIcons[0].classList.toggle('hidden')
     posterImageEl.classList.add('m-auto', 'rounded-lg')
     movieContainer.appendChild(posterImageEl)
-  } catch (err) {
-    console.error(err)
+
+  } else if (!movie.posterImg) {
+    
+  }
+   else {
     let errorEl = document.createElement('div')
-    errorEl.innerHTML = 'Sorry, couldn\'t find the poster of the movie.'
-    errorEl.classList.add('text-red')
+    errorEl.innerHTML = '<span class="text-red-100"> Sorry, couldn\'t find the poster of the movie. </span>'
+    loaderIcons[0].classList.toggle('hidden')
     movieContainer.appendChild(errorEl)
   }
-
 
   let movieTitleEl = document.createElement('h2')
   movieTitleEl.innerHTML = movie.title
@@ -213,6 +219,7 @@ function createMovieCard(movie) {
 function createRecipeCard(recipe) {
   console.log(recipe)
   currentRecipe = recipe
+  console.log(loaderIcons)
   let foodImgEl = document.createElement('img')
   foodImgEl.setAttribute('src', recipe.image)
   loaderIcons[1].classList.toggle('hidden')
@@ -346,30 +353,30 @@ function getMovieSuggestion() {
 
 function saveSuggestion(savedMovie, savedRecipe) {
   let savedSuggestionBtn = document.createElement('button')
-
+  let title = savedMovie.title
   let saved
-  savedSuggestions.push({ movie: savedMovie, recipe: savedRecipe })
+  savedSuggestions.push({movie: savedMovie, recipe: savedRecipe})
   savedSuggestionBtn.innerText = savedMovie.title + ' and ' + savedRecipe.name
   savedSuggestionBtn.classList.add('bg-gray-500', 'hover:bg-gray-700', 'text-black', 'p-2', 'm-2')
   savedSuggestionBtn.id = savedCount
-  localStorage.setItem(savedCount, JSON.stringify({ movie: savedMovie, recipe: savedRecipe }))
-
+  localStorage.setItem('savedSuggestions', JSON.stringify(savedSuggestions))
+  
   savedSuggestionBtn.addEventListener('click', e => {
     e.preventDefault()
     clearResults()
-    saved = JSON.parse(localStorage.getItem(e.target.id))
-    console.log(saved.movie, saved.recipe)
-    createMovieCard(saved.movie)
-    createRecipeCard(saved.recipe)
-
+    createMovieCard(savedMovie)
+    createRecipeCard(savedRecipe)
+    
   })
+  savedSuggestionsArray = JSON.parse(localStorage.getItem('savedSuggestions'))
+
   pairsWellWith.appendChild(savedSuggestionBtn)
   savedCount++
 }
 
 function clearResults() {
-  movieContainer.innerHTML = '<div class="loader"></div>'
-  foodContainer.innerHTML = '<div class="loader"></div>'
+  movieContainer.innerHTML = '<div class="loader m-auto my-10"></div>'
+  foodContainer.innerHTML = '<div class="loader m-auto my-10"></div>'
 }
 
 // Creating form input selections
