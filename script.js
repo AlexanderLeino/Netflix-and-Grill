@@ -233,12 +233,13 @@ function createRecipeCard(recipe) {
 
   if (recipe.link !== null) {
     let foodLink = document.createElement('a')
-    foodLink.href = recipe.link
+    foodLink.href = recipe.link || '#'
     foodLink.target = '_blank'
     foodLink.innerText = 'Click here for a video\n'
     foodContainer.appendChild(foodLink)
     let foodSource = document.createElement('a')
-    foodSource.href = recipe.instructions
+    foodSource.href = recipe.instructions || '#'
+    foodSource.target = '_blank'
     foodSource.innerText = 'Click here for the recipe\n'
     foodContainer.appendChild(foodSource)
   }
