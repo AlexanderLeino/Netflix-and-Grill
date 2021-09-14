@@ -397,6 +397,11 @@ backBtn.addEventListener('click', function (e) {
   form.classList.remove('hidden', 'animate__bounceOutLeft', 'animate__faster')
   form.classList.add('animate__animated', 'animate__bounceInRight')
   generateSelectOptions()
+  movieContainer.classList.add('invisible')
+  foodContainer.classList.add('invisible')
+  movieContainer.classList.remove('animate__animated', 'animate__fadeInDown', 'animate__slower')
+  foodContainer.classList.remove('animate__animated', 'animate__fadeInUp', 'animate__slower')
+  
 
 })
 
