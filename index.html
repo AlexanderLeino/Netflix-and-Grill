@@ -24,12 +24,12 @@
 <body>
   <div id="intro" class="box">
     <div class="parent">
-      <div class="child netflix-grill-intro-text" id="child" style="animation: intro 1s forwards;">Netflix and Grill</div>
+      <div class="child netflix-grill-intro-text w-full text-center sm\:text-sm" id="child" style="animation: intro 1s forwards;">Netflix and Grill</div>
     </div>
   </div>
   <div id="container" class=" hidden container my-3 px-4">
     <header class="animate__animated animate__slideInDown text-center bg-red-600 text-white text-5xl p-5">
-      <h1 class="display-4 netflix-grill-title">Netflix and Grill</h1>
+      <h1 class="display-4 netflix-grill-title w-full">Netflix and Grill</h1>
     </header>
 
     <!-- Opening page -->
@@ -112,10 +112,10 @@
 
     <!-- Meal information -->
     <div id="result-background" class="hidden flex justify-between bg-black my-4 p-5">
-      <div id="movie-background" class="invisible justify-center bg-black p-5 text-white">
+      <div id="movie-background" class="invisible  justify-center bg-black p-5 text-white">
         <div class="loader m-auto my-10"></div>
       </div>
-      <div id="pairs-well-with" class="hidden  flex-wrap justify-center text-white text-xl text-center justify-center my-10">
+      <div id="pairs-well-with" class="hidden flex-wrap justify-center text-white text-xl text-center justify-center my-10">
         <div class="block">
           <h3 class="text-base">pairs well with</h3>
           <div class="flex justify-center flex-wrap">
@@ -124,8 +124,8 @@
             <button class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2"
             id="back-to-form">Back</button>
             <button class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="generate-button">Generate New Suggestions</button>
-            <button class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="new-recipe">Generate New Recipe</button>
             <button class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="new-movie">Generate New Movie</button>
+            <button class="flex items-center text-lg bg-red-500 hover:bg-red-700 text-white font-bold m-2 p-2" id="new-recipe">Generate New Recipe</button>
           </div>
         </div>
       </div>
@@ -136,7 +136,6 @@
 
     </div>
   </div>
-  <script src="keys.js"></script>
   <script src="script.js"></script>
 </body>
 

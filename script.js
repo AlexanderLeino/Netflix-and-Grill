@@ -186,7 +186,7 @@ function showResult() {
 
 // Create movie card
 function createMovieCard(movie) {
-  console.log(movie.posterImg)
+  
   currentMovie = movie
   if (movie.posterImg !== undefined) {
     let posterImageEl = document.createElement('img')
@@ -217,9 +217,9 @@ function createMovieCard(movie) {
 
 // Create recipe card
 function createRecipeCard(recipe) {
-  console.log(recipe)
+  
   currentRecipe = recipe
-  console.log(loaderIcons)
+  
   let foodImgEl = document.createElement('img')
   foodImgEl.setAttribute('src', recipe.image)
   loaderIcons[1].classList.toggle('hidden')
@@ -250,8 +250,8 @@ function checkRequired(selectArr) {
   let validForm
   selectArr.forEach(function (item) {
     let select = item.querySelector('.select-change')
-    console.log(item)
-    console.log(select)
+    
+    
     if (select.selectedIndex === 0) {
       showErrorMessage(select, 'All fields are required')
       getSelectedIndex(select)
@@ -281,7 +281,7 @@ function showSuccess(e) {
   e.classList.add('text-black', 'border-green-500', 'border-solid', 'border-2', 'p-2','animate__animated', 'animate__bounce')
 }
 
-
+// Makes the API call
 function getRecipeSuggestion() {
   let foodQuery
   let randomRecipe
@@ -298,7 +298,7 @@ function getRecipeSuggestion() {
           return response.json()
         })
         .then(data => {
-          console.log(data)
+          
           localStorage.setItem('tastymeals', JSON.stringify(data))
           randomRecipe = data['results'][Math.floor(Math.random() * data['results'].length)]
           createRecipeCard(new recipeSuggestion(randomRecipe.name, randomRecipe.thumbnail_url, '', '#', randomRecipe.renditions[0].url))
@@ -311,11 +311,11 @@ function getRecipeSuggestion() {
     fetch(mealDbUrl + foodQuery)
       .then(response => {
         trackAPICalls(response)
-        console.log(response)
+        
         return response.json()
       })
       .then(data => {
-        console.log(data)
+        
         localStorage.setItem('meals', JSON.stringify(data))
         randomRecipe = data['meals'][Math.floor(Math.random() * data['meals'].length)]
         createRecipeCard(new recipeSuggestion(randomRecipe.strMeal, randomRecipe.strMealThumb, '0', randomRecipe.strSource, randomRecipe.strYoutube))
@@ -325,8 +325,6 @@ function getRecipeSuggestion() {
   foodQuery = ''
   removeForm()
 }
-
-
 function getMovieSuggestion() {
   // Get movie suggestion
   let chosenGenre = netflixGenres[movieGenres.children[1].value]
@@ -344,7 +342,7 @@ function getMovieSuggestion() {
       })
       .then(data => {
         localStorage.setItem(movieGenres.children[1].value, JSON.stringify(data))
-        console.log(data)
+        
         randomMovie = data['results'][Math.floor(Math.random() * data['results'].length)]
         createMovieCard(new movieSuggestion(randomMovie.title, randomMovie.synopsis, randomMovie.imdbrating, randomMovie.runtime, randomMovie.top250, randomMovie.poster))
 
@@ -354,10 +352,8 @@ function getMovieSuggestion() {
 
 function saveSuggestion(savedMovie, savedRecipe) {
   let savedSuggestionBtn = document.createElement('button')
-  let title = savedMovie.title
-  let saved
   savedSuggestions.push({movie: savedMovie, recipe: savedRecipe})
-  savedSuggestionBtn.innerText = savedMovie.title + ' and ' + savedRecipe.name
+  savedSuggestionBtn.innerHTML = savedMovie.title + ' and ' + savedRecipe.name
   savedSuggestionBtn.classList.add('bg-gray-500', 'hover:bg-gray-700', 'text-black', 'p-2', 'm-2')
   savedSuggestionBtn.id = savedCount
   localStorage.setItem('savedSuggestions', JSON.stringify(savedSuggestions))
@@ -455,7 +451,7 @@ submitBtn.addEventListener('click', function (e) {
 
 newMovieBtn.addEventListener('click', function(e) {
   e.preventDefault()
-  console.log('movie')
+  
   clearResults()
   getMovieSuggestion();
   createRecipeCard(currentRecipe)
@@ -463,7 +459,7 @@ newMovieBtn.addEventListener('click', function(e) {
 
 newRecipeBtn.addEventListener('click', function(e) {
   e.preventDefault()
-  console.log('recipe')
+  
   clearResults()
   getRecipeSuggestion();
   createMovieCard(currentMovie)
