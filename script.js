@@ -46,29 +46,40 @@ let currentMovie, currentRecipe
 
 const netflixGenres = {
   "Drama": ["11", "384", "452", "500", "794", "1989", "2748", "2757", "2893", "3916", "3947", "4282", "4425", "5012", "5051", "5572", "5763", "6206", "6763", "6889", "7687", "9299", "9873", "11075", "11729", "12994", "13158", "29809", "31901", "56169", "58677", "62116", "62140", "62235", "71591"],
+
   "Comedy": ["26", "869", "1009", "1402", "2030", "1747", "2700", "3300", "3903", "3996", "4058", "4426", "4906", "4922", "5286", "5610", "6102", "6197", "6626", "7120", "7539", "9229", "9302", "9702", "9736", "9942", "10256", "10778", "11039", "11559", "11755", "17648", "31694", "43040", "56174"],
+
   "Science Fiction": ["1492", "1568", "3327", "4734", "6000", "6926", "75448", "90166", "108533", "852491", "1433679", "1626246"],
+
   "Romance": ["3329", "3830", "5756", "6384", "7908", "9257", "9916", "13335", "13573", "16890", "17241", "29281", "31273", "32392", "35800", "36103", "52852", "53915", "58900", "61656", "62752", "78250", "107985", "1412508", "1474327", "1522234"],
+
   "Films in Various Languages": ["262", "798", "799", "1105", "1613", "3761", "3960", "5230", "5254", "5480", "5685", "5875", "5977", "6133", "6299", "7825", "8221", "8248", "9196", "9292", "10398", "10463", "10606", "26835", "29764", "31853", "56181", "56184", "58676", "58700", "58741", "58750", "58755", "58796", "58798"],
+
   "Action": ["899", "2653", "4344", "27018", "27756", "30140", "31244", "7700", "8985", "8999", "43048", "9584", "10702", "11804", "46576", "47465", "70023", "48744", "75418", "76501", "76510", "77232", "90176", "801362", "852490"],
+
   "Sports": ["4370", "7243", "9327", "12339", "12443", "12762", "12549", "12549"],
+
   "Horror": ["1694", "947", "4809", "6895", "6998", "8195", "8646", "8711", "9509", "10750", "10944", "42023", "45028", "48303", "52147", "65209", "75405", "75804", "75930", "89585", "1475312"],
+
   "Superhero": ["10118", "67698"],
+
   "Thriller": ["972", "1321", "1774", "3269", "5505", "6047", "6867", "8933", "9147", "10306", "10504", "10719", "11014", "11140", "11283", "46588", "65558", "75390", "78507", "852488", "1663282"],
+
   "Mystery": ["79049"],
+
   "Adventure": ["1159", "1252", "7442", "8248", "52858"],
+
   "For Kids": ["561", "783", "2340", "5455", "5507", "6218", "6796", "6962", "10056", "48586", "51056", "51058", "52849", "52904", "58879", "65218", "65437", "67673", "74253", "89513", "413820", "751423"],
+
   "Fantasy": ["47147", "9744"],
+
   "Anime": ["2729", "3063", "4698", "6721", "7424", "7992", "11146", "11881", "1408777", "1519826", "1522235", "1622375", "1623841", "1819777", "2246382", "2797624", "2867624", "2951909", "2867325"],
+
   "Crime": ["1884", "5824", "6051", "10499", "61695", "78463", "81050"],
+  
   "Documentary/movies": ["180", "920", "1096", "2595", "2760", "3179", "3215", "3652", "3675", "3682", "4006", "4649", "4720", "5161", "5349", "6839", "7018", "8673", "9875", "10005", "15456", "17672", "25485", "28269", "48768", "49110", "56178", "58710", "63286", "71590", "90361", "852494", "1515639", "1650093", "2243108"]
 }
 
-/* 
-
-TODO: Add modal with recipe information and links
-
-*/
 
 // Tracks API calls from Rapid APIs
 function trackAPICalls(response) {
@@ -76,6 +87,7 @@ function trackAPICalls(response) {
 
 }
 
+// Movie and recipe object templates
 class movieSuggestion {
   constructor(title, description, rating, runtime, isTop250, posterImg) {
     this.title = title
@@ -130,7 +142,7 @@ function showSubmitBtn() {
   submitBtn.setAttribute('class', 'animate__animated bg-red-500 hover:bg-red-700 text-white font-bold my-3 p-3 shadow-inner')
 }
 
-//<---set select style based on selection--->
+//  Set select style based on selection
 function getSelectedIndex(e) {
   if (e.selectedIndex === 0) {
     e.classList.add('text-gray-300', 'text-sm',)
@@ -350,6 +362,7 @@ function getMovieSuggestion() {
   }
 }
 
+// Save the suggested pair
 function saveSuggestion(savedMovie, savedRecipe) {
   let savedSuggestionBtn = document.createElement('button')
   savedSuggestions.push({movie: savedMovie, recipe: savedRecipe})
@@ -371,6 +384,7 @@ function saveSuggestion(savedMovie, savedRecipe) {
   savedCount++
 }
 
+// Clear the suggestion elements
 function clearResults() {
   movieContainer.innerHTML = '<div class="loader m-auto my-10"></div>'
   foodContainer.innerHTML = '<div class="loader m-auto my-10"></div>'
@@ -379,7 +393,7 @@ function clearResults() {
 // Creating form input selections
 generateSelectOptions()
 
-//   Replace Intro with Section 
+// Replace Intro with Section 
 intro.addEventListener('animationend', function () {
   setTimeout(function () {
     child.style.removeProperty('animation')
@@ -419,7 +433,7 @@ backBtn.addEventListener('click', function (e) {
 
 })
 
-// 
+// Save pair event listener
 saveBtn.addEventListener('click', function (e) {
   e.preventDefault();
   saveSuggestion(currentMovie, currentRecipe)
@@ -427,7 +441,7 @@ saveBtn.addEventListener('click', function (e) {
 
 })
 
-// 
+// Gen new movie and recipe
 newSuggestionBtn.addEventListener('click', function (e) {
   e.preventDefault();
   clearResults();
@@ -435,7 +449,7 @@ newSuggestionBtn.addEventListener('click', function (e) {
   getMovieSuggestion();
 })
 
-// Make api request when user submits their form
+// Starts creating the cards when user submits their form
 submitBtn.addEventListener('click', function (e) {
   e.preventDefault()
   let checkForm = checkRequired([kidFriendly, movieGenres, peopleCount])
@@ -449,6 +463,7 @@ submitBtn.addEventListener('click', function (e) {
   }
 })
 
+// Gen new movie
 newMovieBtn.addEventListener('click', function(e) {
   e.preventDefault()
   
@@ -457,6 +472,7 @@ newMovieBtn.addEventListener('click', function(e) {
   createRecipeCard(currentRecipe)
 })
 
+// Gen new recipe
 newRecipeBtn.addEventListener('click', function(e) {
   e.preventDefault()
   
